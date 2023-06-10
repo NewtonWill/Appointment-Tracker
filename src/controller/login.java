@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -27,21 +28,48 @@ public class login implements Initializable {
     private Button cancelBtn;
 
     @FXML
+    private Label loginUIElement;
+
+    @FXML
     private Button okBtn;
 
     @FXML
     private TextField passwordTxt;
 
     @FXML
-    private TextField usernameTxt;
+    private Label passwordUIElement;
 
     @FXML
     private Label timeZoneLabel;
 
+    @FXML
+    private TextField usernameTxt;
+
+    @FXML
+    private Label usernameUIElement;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
         timeZoneLabel.setText(String.valueOf(Session.getLocalZoneId()));
+        if (!String.valueOf(Session.getLocalLanguage()).equals("en")) {
+            System.out.println("english not detected");
+            if (String.valueOf(Session.getLocalLanguage()).equals("fr")){
+                System.out.println("Translating to french...");
+                usernameUIElement.setText("nom d'utilisateur");
+                passwordUIElement.setText("mot de passe");
+                loginUIElement.setText("connectez-vous");
+                okBtn.setText("d'accord");
+                cancelBtn.setText("Annuler");
+                //fixme fix the ui spacing if there is time
+            }
+            else {
+                System.out.println("Language not supported, english set by default");
+                Alert languageAlert = new Alert(Alert.AlertType.WARNING);
+                languageAlert.setTitle("Language unsupported");
+                languageAlert.setContentText("System language is not supported. Program defaulting to english.");
+                languageAlert.show();
+            }
+        }
 
         //String sysdef = Locale.getDefault().toString();
         //System.out.println(sysdef);

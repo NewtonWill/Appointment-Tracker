@@ -11,7 +11,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="Login" textAlignment="CENTER">
+                  <Label fx:id="loginUIElement" alignment="CENTER" contentDisplay="CENTER" text="Login" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="35.0" />
                      </font>
@@ -39,8 +39,8 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label text="Username" />
-                  <Label text="Password" GridPane.rowIndex="1" />
+                  <Label fx:id="usernameUIElement" text="Username" />
+                  <Label fx:id="passwordUIElement" text="Password" GridPane.rowIndex="1" />
                   <TextField fx:id="usernameTxt" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets />

@@ -33,6 +33,8 @@ public class Main extends Application {
         //String SysLang = Locale.getDefault().getLanguage();
         System.out.println("Local Lang ID: " + Session.getLocalLanguage());
 
+
+
         //opens database connection
         //JDBC.openConnection();
 

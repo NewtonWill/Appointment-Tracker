@@ -19,19 +19,26 @@ public abstract class usersQuery {
         }
     }
 
-    public static boolean checkMatch(String usernameIn, String passwordIn) throws SQLException {
+    /**
+     * Method checks if log in is valid and returns validated user ID
+     * @param usernameIn the username to log in with
+     * @param passwordIn the password to log in with
+     * @return the user ID that matches the successful username and password combo. Returns null if login fails
+     */
+    public static Integer checkMatch(String usernameIn, String passwordIn) throws SQLException {
         String sql = "SELECT * FROM USERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while(rs.next()){
             String usernameDb = rs.getString("User_Name");
             String passwordDb = rs.getString("Password");
+            Integer userIdDb = rs.getInt("User_ID");
             if(Objects.equals(usernameDb, usernameIn) && Objects.equals(passwordDb, passwordIn)){
                 System.out.println("PASS");
-                return true;
+                return userIdDb;
             }
         }
         System.out.println("FAIL");
-        return false;
+        return null;
     }
 }

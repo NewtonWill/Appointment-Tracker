@@ -2,24 +2,24 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import main.Main;
 import model.Session;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.ZoneId;
-import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
 
-public class login implements Initializable {
+public class loginController implements Initializable {
 
     Stage stage;
     Parent scene;
@@ -75,18 +75,46 @@ public class login implements Initializable {
         //System.out.println(sysdef);
     }
 
+    /**
+     * Method checks that log in is valid, logs userID, and launches main menu
+     */
     @FXML
-    void onActionLogIn(ActionEvent event) throws SQLException {
+    void onActionLogIn(ActionEvent event) throws SQLException, IOException {
         String username = usernameTxt.getText();
         String password = passwordTxt.getText();
-        if (helper.usersQuery.checkMatch(username, password)){
+        Session.setLocalUserId(helper.usersQuery.checkMatch(username, password));
+        if (Session.getLocalUserId() != null){
             System.out.println("Login successful");
+            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/mainForm.fxml")));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
+        else {
+            System.out.println("Login unsuccessful");
         }
     }
 
     @FXML
-    void onActionSavePart(ActionEvent event) {
+    void onActionCancelBtn(ActionEvent event) throws SQLException {
+        System.out.println(Session.getLocalUserId());
+    }
 
+    @FXML
+    void onActionTextEnter(ActionEvent event) throws SQLException, IOException {
+        String username = usernameTxt.getText();
+        String password = passwordTxt.getText();
+        Session.setLocalUserId(helper.usersQuery.checkMatch(username, password));
+        if (Session.getLocalUserId() != null){
+            System.out.println("Login successful");
+            stage = (Stage)((TextField)event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/mainForm.fxml")));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
+        else {
+            System.out.println("Login unsuccessful");
+        }
     }
 
 }

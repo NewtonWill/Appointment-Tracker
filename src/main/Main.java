@@ -13,12 +13,13 @@ import model.Session;
 import java.sql.SQLException;
 import java.time.*;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/login.fxml")));
         stage.setTitle("Login");
         stage.setScene(new Scene(root, 500,208));
         stage.show();
@@ -26,7 +27,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws SQLException {
 
-        new Session(Locale.getDefault().getLanguage(), ZoneId.of(TimeZone.getDefault().getID()));
+        new Session(Locale.getDefault().getLanguage(), ZoneId.of(TimeZone.getDefault().getID()), null);
 
         //ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
         System.out.println("Local Timezone: " + Session.getLocalZoneId());
@@ -36,7 +37,7 @@ public class Main extends Application {
 
 
         //opens database connection
-        //JDBC.openConnection();
+        JDBC.openConnection();
 
         //Launches tests
         //TestScripts.loginTest();
@@ -47,7 +48,7 @@ public class Main extends Application {
 
 
         //program close
-        //JDBC.closeConnection();
+        JDBC.closeConnection();
 
         System.exit(0);
     }

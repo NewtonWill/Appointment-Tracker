@@ -6,10 +6,12 @@ public class Session {
 
     private static String localLanguage;
     private static ZoneId localZoneId;
+    private static Integer localUserId;
 
-    public Session(String localLanguage, ZoneId localZoneId){
+    public Session(String localLanguage, ZoneId localZoneId, Integer localUserId){
         Session.localLanguage = localLanguage;
         Session.localZoneId = localZoneId;
+        Session.localUserId = localUserId;
     }
 
     public static String getLocalLanguage() {
@@ -28,5 +30,11 @@ public class Session {
         Session.localZoneId = localZoneId;
     }
 
+    public static Integer getLocalUserId() {
+        return localUserId;
+    }
 
+    public static void setLocalUserId(Integer localUserId) {
+        Session.localUserId = localUserId;
+    }
 }

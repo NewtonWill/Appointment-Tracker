@@ -1,7 +1,9 @@
 package main;
 
+import helper.countriesQuery;
 import helper.customersQuery;
 import helper.JDBC;
+import helper.divisionsQuery;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,7 +40,9 @@ public class Main extends Application {
         //opens database connection
         JDBC.openConnection();
 
-        //loads customers to memory
+        //loads Database to memory
+        countriesQuery.loadToMemory();
+        divisionsQuery.loadToMemory();
         customersQuery.loadToMemory();
 
         //Launches tests

@@ -8,6 +8,8 @@ public class Customer {
     private String postalCode;
     private String phone;
     private Integer divisionId;
+    private String countryName;
+    private String divisionName;
 
     public Customer(Integer customerId, String name, String address, String postalCode, String phone, Integer divisionId) {
         this.customerId = customerId;
@@ -16,6 +18,24 @@ public class Customer {
         this.postalCode = postalCode;
         this.phone = phone;
         this.divisionId = divisionId;
+        this.divisionName = Session.lookupDivision(divisionId).getDivisionName();
+        this.countryName = Session.lookupDivision(divisionId).getCountryName();
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
+
+    public String getDivisionName() {
+        return divisionName;
+    }
+
+    public void setDivisionName(String divisionName) {
+        this.divisionName = divisionName;
     }
 
     public Integer getCustomerId() {

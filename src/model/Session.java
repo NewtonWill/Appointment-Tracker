@@ -9,6 +9,8 @@ import java.util.Objects;
 public class Session {
 
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+    private static ObservableList<Division> allDivisions = FXCollections.observableArrayList();
+    private static ObservableList<Country> allCountries = FXCollections.observableArrayList();
 
     private static String localLanguage;
     private static ZoneId localZoneId;
@@ -19,6 +21,10 @@ public class Session {
         Session.localZoneId = localZoneId;
         Session.localUserId = localUserId;
     }
+
+
+
+
 
     /**
      * Method adds customer to allCustomers
@@ -68,7 +74,7 @@ public class Session {
 
         if (selectedCustomer == null) {
             System.out.println("Selected Customer is null. Delete aborted");
-            return false; //runtime used these lines to fix error when lookupCustomer() returned null
+            return false;
         }
 
         for(Customer CustomerX : getAllCustomers()){
@@ -80,6 +86,143 @@ public class Session {
         System.out.println("Customer ID " + selectedCustomer.getCustomerId() + " Not Found");
         return false;
     }
+
+
+
+
+
+    /**
+     * Method adds Country to allCountries
+     * @param newCountry the Country to add to allCountries
+     */
+    public static void addCountry (Country newCountry){
+        allCountries.add(newCountry);
+    }
+
+    /**
+     * Searches all Countries to find a match with ID
+     * @param CountryId the Country ID to search for
+     * @return the Country that matches the ID parameter
+     */
+    public static Country lookupCountry (int CountryId){
+        for(Country Country : getAllCountries()){
+            if(Country.getCountryId() == CountryId) {
+                return Country;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return all Countries
+     */
+    public static ObservableList<Country> getAllCountries() {
+        return allCountries;
+    }
+
+    /**
+     * Method replaces Country at index with Country parameter
+     * @param index the index of the Country to replace
+     * @param selectedCountry the Country to place at the specified index
+     */
+    public static void updateCountry (int index, Country selectedCountry){
+
+        getAllCountries().set(index, selectedCountry);
+    }
+
+    /**
+     * Method verifies selection, checks for associated Countries, then deletes the Country
+     * @param selectedCountry the Country to delete
+     * @return true if the deletion is successful
+     */
+    public static boolean deleteCountry (Country selectedCountry){
+
+        if (selectedCountry == null) {
+            System.out.println("Selected Country is null. Delete aborted");
+            return false;
+        }
+
+        for(Country CountryX : getAllCountries()){
+            if(Objects.equals(CountryX.getCountryId(), selectedCountry.getCountryId())){
+                System.out.println("Country ID " + selectedCountry.getCountryId() + " Deleted");
+                return getAllCountries().remove(CountryX);
+            }
+        }
+        System.out.println("Country ID " + selectedCountry.getCountryId() + " Not Found");
+        return false;
+    }
+
+
+
+
+
+
+
+    /**
+     * Method adds Division to allDivisions
+     * @param newDivision the Division to add to allDivisions
+     */
+    public static void addDivision (Division newDivision){
+        allDivisions.add(newDivision);
+    }
+
+    /**
+     * Searches all Divisions to find a match with ID
+     * @param DivisionId the Division ID to search for
+     * @return the Division that matches the ID parameter
+     */
+    public static Division lookupDivision (int DivisionId){
+        for(Division Division : getAllDivisions()){
+            if(Division.getDivisionId() == DivisionId) {
+                return Division;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return all Divisions
+     */
+    public static ObservableList<Division> getAllDivisions() {
+        return allDivisions;
+    }
+
+    /**
+     * Method replaces Division at index with Division parameter
+     * @param index the index of the Division to replace
+     * @param selectedDivision the Division to place at the specified index
+     */
+    public static void updateDivision (int index, Division selectedDivision){
+
+        getAllDivisions().set(index, selectedDivision);
+    }
+
+    /**
+     * Method verifies selection, checks for associated Divisions, then deletes the Division
+     * @param selectedDivision the Division to delete
+     * @return true if the deletion is successful
+     */
+    public static boolean deleteDivision (Division selectedDivision){
+
+        if (selectedDivision == null) {
+            System.out.println("Selected Division is null. Delete aborted");
+            return false;
+        }
+
+        for(Division DivisionX : getAllDivisions()){
+            if(Objects.equals(DivisionX.getDivisionId(), selectedDivision.getDivisionId())){
+                System.out.println("Division ID " + selectedDivision.getDivisionId() + " Deleted");
+                return getAllDivisions().remove(DivisionX);
+            }
+        }
+        System.out.println("Division ID " + selectedDivision.getDivisionId() + " Not Found");
+        return false;
+    }
+
+
+
+
+
 
     public static String getLocalLanguage() {
         return localLanguage;

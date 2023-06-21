@@ -190,13 +190,15 @@ public class mainFormController implements Initializable{
 
         customerTableView.setItems(Session.getAllCustomers());
 
-        custCIDCol.setCellValueFactory(new PropertyValueFactory<>("CID"));
+        custCIDCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         custNameCol.setCellValueFactory(new PropertyValueFactory<>("Name"));
         custPhoneCol.setCellValueFactory(new PropertyValueFactory<>("Phone"));
         custAddressCol.setCellValueFactory(new PropertyValueFactory<>("Address"));
-        custCountryCol.setCellValueFactory(new PropertyValueFactory<>("Country"));
-        custDivisionCol.setCellValueFactory(new PropertyValueFactory<>("Division"));
-        custZipCol.setCellValueFactory(new PropertyValueFactory<>("Zip"));
+        custCountryCol.setCellValueFactory(new PropertyValueFactory<>("CountryName"));
+        custDivisionCol.setCellValueFactory(new PropertyValueFactory<>("DivisionName"));
+        //todo make function to get country from divisionId.
+        //todo get division name from id.
+        custZipCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
     }
 
 }

@@ -22,6 +22,10 @@ public class TestScripts {
         System.out.print("Rows Affected: " + rowsAffected + "\n");
     }
 
+    public static void customerListTest() throws SQLException{
+
+    }
+
 
 
 }

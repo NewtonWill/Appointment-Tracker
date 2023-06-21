@@ -2,14 +2,23 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import model.Appointment;
+import model.Customer;
+import model.Session;
 
-public class mainFormController {
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class mainFormController implements Initializable{
 
     @FXML
     private Button addAppointmentBtn;
@@ -96,10 +105,10 @@ public class mainFormController {
     private ComboBox<?> monthSelect;
 
     @FXML
-    private TableView<?> partTableView;
+    private TableView<Customer> customerTableView;
 
     @FXML
-    private TableView<?> productTableView;
+    private TableView<Appointment> appointmentTableView;
 
     @FXML
     private Button rightBtn;
@@ -174,6 +183,20 @@ public class mainFormController {
     @FXML
     void onActionYearSelect(ActionEvent event) {
 
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle){
+
+        customerTableView.setItems(Session.getAllCustomers());
+
+        custCIDCol.setCellValueFactory(new PropertyValueFactory<>("CID"));
+        custNameCol.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        custPhoneCol.setCellValueFactory(new PropertyValueFactory<>("Phone"));
+        custAddressCol.setCellValueFactory(new PropertyValueFactory<>("Address"));
+        custCountryCol.setCellValueFactory(new PropertyValueFactory<>("Country"));
+        custDivisionCol.setCellValueFactory(new PropertyValueFactory<>("Division"));
+        custZipCol.setCellValueFactory(new PropertyValueFactory<>("Zip"));
     }
 
 }

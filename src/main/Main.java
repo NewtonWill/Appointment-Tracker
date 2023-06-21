@@ -1,7 +1,6 @@
 package main;
 
-import helper.FruitsQuery;
-import helper.usersQuery;
+import helper.customersQuery;
 import helper.JDBC;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -38,6 +37,9 @@ public class Main extends Application {
 
         //opens database connection
         JDBC.openConnection();
+
+        //loads customers to memory
+        customersQuery.loadToMemory();
 
         //Launches tests
         //TestScripts.loginTest();

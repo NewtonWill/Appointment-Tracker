@@ -1,5 +1,6 @@
 package controller;
 
+import helper.customersQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -97,7 +98,7 @@ public class loginController implements Initializable {
 
     @FXML
     void onActionCancelBtn(ActionEvent event) throws SQLException {
-        System.out.println(Session.getLocalUserId());
+        customersQuery.loadToMemory();
     }
 
     @FXML

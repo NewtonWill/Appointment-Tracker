@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class countriesQuery {
+public abstract class countriesQuery {
     public static void loadToMemory() throws SQLException {
     String sql = "SELECT * FROM Countries";
     PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -19,6 +19,6 @@ public class countriesQuery {
         Country newCountry = new Country(CountryId, CountryName);
         Session.addCountry(newCountry);
         System.out.println("Country added: " + CountryName);
+        }
     }
-}
 }

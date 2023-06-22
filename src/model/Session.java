@@ -11,6 +11,7 @@ public class Session {
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
     private static ObservableList<Division> allDivisions = FXCollections.observableArrayList();
     private static ObservableList<Country> allCountries = FXCollections.observableArrayList();
+    private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
     private static String localLanguage;
     private static ZoneId localZoneId;
@@ -84,6 +85,70 @@ public class Session {
             }
         }
         System.out.println("Customer ID " + selectedCustomer.getCustomerId() + " Not Found");
+        return false;
+    }
+
+
+
+
+    /**
+     * Method adds Appointment to allAppointments
+     * @param newAppointment the Appointment to add to allAppointments
+     */
+    public static void addAppointment (Appointment newAppointment){
+        allAppointments.add(newAppointment);
+    }
+
+    /**
+     * Searches all Appointments to find a match with ID
+     * @param AppointmentId the Appointment ID to search for
+     * @return the Appointment that matches the ID parameter
+     */
+    public static Appointment lookupAppointment (int AppointmentId){
+        for(Appointment Appointment : getAllAppointments()){
+            if(Appointment.getAppointmentId() == AppointmentId) {
+                return Appointment;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return all Appointments
+     */
+    public static ObservableList<Appointment> getAllAppointments() {
+        return allAppointments;
+    }
+
+    /**
+     * Method replaces Appointment at index with Appointment parameter
+     * @param index the index of the Appointment to replace
+     * @param selectedAppointment the Appointment to place at the specified index
+     */
+    public static void updateAppointment (int index, Appointment selectedAppointment){
+
+        getAllAppointments().set(index, selectedAppointment);
+    }
+
+    /**
+     * Method verifies selection, checks for associated Appointments, then deletes the Appointment
+     * @param selectedAppointment the Appointment to delete
+     * @return true if the deletion is successful
+     */
+    public static boolean deleteAppointment (Appointment selectedAppointment){
+
+        if (selectedAppointment == null) {
+            System.out.println("Selected Appointment is null. Delete aborted");
+            return false;
+        }
+
+        for(Appointment AppointmentX : getAllAppointments()){
+            if(Objects.equals(AppointmentX.getAppointmentId(), selectedAppointment.getAppointmentId())){
+                System.out.println("Appointment ID " + selectedAppointment.getAppointmentId() + " Deleted");
+                return getAllAppointments().remove(AppointmentX);
+            }
+        }
+        System.out.println("Appointment ID " + selectedAppointment.getAppointmentId() + " Not Found");
         return false;
     }
 

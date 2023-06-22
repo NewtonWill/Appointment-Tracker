@@ -196,9 +196,21 @@ public class mainFormController implements Initializable{
         custAddressCol.setCellValueFactory(new PropertyValueFactory<>("Address"));
         custCountryCol.setCellValueFactory(new PropertyValueFactory<>("CountryName"));
         custDivisionCol.setCellValueFactory(new PropertyValueFactory<>("DivisionName"));
-        //todo make function to get country from divisionId.
-        //todo get division name from id.
         custZipCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+
+
+        appointmentTableView.setItems(Session.getAllAppointments());
+
+        apptAIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("Title"));
+        apptDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("Description"));
+        apptLocationCol.setCellValueFactory(new PropertyValueFactory<>("Location"));
+        apptContactCol.setCellValueFactory(new PropertyValueFactory<>("ContactID"));
+        apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        apptStartCol.setCellValueFactory(new PropertyValueFactory<>("StartDT"));
+        apptEndCol.setCellValueFactory(new PropertyValueFactory<>("EndDT"));
+        apptCIDCol.setCellValueFactory(new PropertyValueFactory<>("Customer_ID"));
+        apptUIDCol.setCellValueFactory(new PropertyValueFactory<>("User_ID"));
     }
 
 }

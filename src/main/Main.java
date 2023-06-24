@@ -38,10 +38,11 @@ public class Main extends Application {
         JDBC.openConnection();
 
         //loads Database to memory
-        countriesQuery.loadToMemory();
-        divisionsQuery.loadToMemory();
-        customersQuery.loadToMemory();
-        appointmentsQuery.loadToMemory();
+        System.out.println("Countries loaded: " + countriesQuery.loadToMemory());
+        System.out.println("Divisions loaded: " + divisionsQuery.loadToMemory());
+        System.out.println("Customers loaded: " + customersQuery.loadToMemory());
+        System.out.println("Appointments loaded: " + appointmentsQuery.loadToMemory());
+        System.out.println("Contacts loaded: " + contactsQuery.loadToMemory());
 
         //Launches tests
         //TestScripts.loginTest();

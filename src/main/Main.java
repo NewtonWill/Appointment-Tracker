@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Customer;
 import model.Session;
 
 import java.sql.SQLException;
@@ -52,6 +53,7 @@ public class Main extends Application {
         launch(args);
 
 
+        customersQuery.delete(666);
         //program close
         JDBC.closeConnection();
 
@@ -97,7 +99,7 @@ public class Main extends Application {
         //ZoneId.getAvailableZoneIds().stream().filter(c -> c.contains("Europe")).forEach(System.out::println);
 
         LocalDate parisDate = LocalDate.of(2019, 10, 26);
-        LocalTime parisTime = LocalTime.of(01, 00);
+        LocalTime parisTime = LocalTime.of(1, 0);
         ZoneId parisZoneId = ZoneId.of("Europe/Paris");
         ZonedDateTime parisZDT = ZonedDateTime.of(parisDate, parisTime, parisZoneId);
         ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());

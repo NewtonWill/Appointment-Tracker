@@ -10,14 +10,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox layoutX="7.0" layoutY="-7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Customer">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Customer">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -45,13 +44,13 @@
                   </VBox>
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="200.0" spacing="15.0">
                      <children>
-                        <TextField disable="true" editable="false" />
-                        <TextField />
-                        <TextField />
-                        <TextField />
-                        <ComboBox prefWidth="200.0" />
-                        <ComboBox prefWidth="200.0" />
-                        <TextField />
+                        <TextField fx:id="customerIdTxt" disable="true" editable="false" />
+                        <TextField fx:id="customerNameTxt" />
+                        <TextField fx:id="addressTxt" />
+                        <TextField fx:id="postalCodeTxt" />
+                        <ComboBox fx:id="countryCombo" prefWidth="200.0" />
+                        <ComboBox fx:id="divisionCombo" prefWidth="200.0" />
+                        <TextField fx:id="phoneTxt" />
                      </children>
                      <padding>
                         <Insets top="10.0" />
@@ -59,8 +58,8 @@
                   </VBox>
                   <VBox alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="200.0" spacing="15.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Save" />
-                        <Button mnemonicParsing="false" text="Cancel" />
+                        <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#onActionSaveCustomer" text="Save" />
+                        <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel" />
                      </children>
                      <padding>
                         <Insets bottom="25.0" left="25.0" right="25.0" top="10.0" />

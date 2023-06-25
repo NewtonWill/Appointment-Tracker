@@ -50,7 +50,8 @@ public abstract class appointmentsQuery {
     public static int insert(Appointment newAppointment) throws SQLException {
 
         String sql = "INSERT INTO APPOINTMENTS (Appointment_ID, Title, Description, Location, " +
-                "Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "Type, Start, End, Customer_ID, User_ID, Contact_ID, Create_Date, Created_By, " +
+                "Last_Update, Last_Updated_By) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, newAppointment.getAppointmentId());
         ps.setString(2, newAppointment.getTitle());
@@ -62,8 +63,11 @@ public abstract class appointmentsQuery {
         ps.setInt(8, newAppointment.getCustomer_ID());
         ps.setInt(9, newAppointment.getUser_ID());
         ps.setInt(10, newAppointment.getContactID());
-        int rowsAffected = ps.executeUpdate();
-        return rowsAffected;
+        ps.setTimestamp(11, Timestamp.valueOf(LocalDateTime.now()));
+        ps.setString(12, "User " + Session.getLocalUserId());
+        ps.setTimestamp(13, Timestamp.valueOf(LocalDateTime.now()));
+        ps.setString(14, "User " + Session.getLocalUserId());
+        return ps.executeUpdate();
     }
 
     /**
@@ -72,7 +76,9 @@ public abstract class appointmentsQuery {
      * @return the number of records that were affected
      */
     public static int update(Appointment newAppointment) throws SQLException {
-        String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
+        String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, " +
+                "End = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ?,Last_Update = ?, Last_Updated_By = ? " +
+                "WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, newAppointment.getTitle());
         ps.setString(2, newAppointment.getDescription());
@@ -84,8 +90,9 @@ public abstract class appointmentsQuery {
         ps.setInt(8, newAppointment.getUser_ID());
         ps.setInt(9, newAppointment.getContactID());
         ps.setInt(10, newAppointment.getAppointmentId());
-        int rowsAffected = ps.executeUpdate();
-        return rowsAffected;
+        ps.setTimestamp(11, Timestamp.valueOf(LocalDateTime.now()));
+        ps.setString(12, "User " + Session.getLocalUserId());
+        return ps.executeUpdate();
     }
 
     /**
@@ -97,8 +104,7 @@ public abstract class appointmentsQuery {
         String sql = "DELETE FROM APPOINTMENTS WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, AppointmentId);
-        int rowsAffected = ps.executeUpdate();
-        return rowsAffected;
+        return ps.executeUpdate();
     }
 
     /**
@@ -110,7 +116,6 @@ public abstract class appointmentsQuery {
         String sql = "DELETE FROM APPOINTMENTS WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, newAppointment.getAppointmentId());
-        int rowsAffected = ps.executeUpdate();
-        return rowsAffected;
+        return ps.executeUpdate();
     }
 }

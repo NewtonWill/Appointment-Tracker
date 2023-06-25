@@ -1,24 +1,31 @@
 package controller;
 
+import helper.appointmentsQuery;
+import helper.customersQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Scene;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
 import model.Session;
 
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class mainFormController implements Initializable{
+
+    Stage stage;
+    Parent scene;
 
     @FXML
     private Button addAppointmentBtn;
@@ -119,30 +126,88 @@ public class mainFormController implements Initializable{
     @FXML
     private ComboBox<?> yearSelect1;
 
+    /**
+     * Method brings user to the new appointment form
+     */
     @FXML
-    void onActionAddAppointment(ActionEvent event) {
+    void onActionAddAppointment(ActionEvent event) throws IOException {
+
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/newAppointment.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
 
     }
 
     @FXML
-    void onActionAddCust(ActionEvent event) {
-
+    void onActionAddCust(ActionEvent event) throws IOException{
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/newCustomer.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML
-    void onActionDeleteAppointment(ActionEvent event) {
+    void onActionDeleteAppointment(ActionEvent event) throws SQLException {
+        Appointment selectedAppt = appointmentTableView.getSelectionModel().getSelectedItem();
+        if(selectedAppt == null){
+            Alert noAppointmentAlert = new Alert(Alert.AlertType.ERROR);
+            noAppointmentAlert.setTitle("Appointment Not Deleted");
+            noAppointmentAlert.setContentText("No Appointment selected to delete");
+            noAppointmentAlert.showAndWait();
+            return;
+        }
 
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Appointment?");
+        alert.setContentText("Press okay to confirm deletion of Appointment");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if(result.get() == ButtonType.OK){
+            int DLines = appointmentsQuery.delete(selectedAppt);
+            if (DLines == 1) {
+                System.out.println("DB Delete success");
+            } else {
+                System.out.println("ERROR: Unexpected deletion of " + DLines + "lines");
+            }
+            if(Session.deleteAppointment(selectedAppt)){
+                System.out.println("Java object delete success");
+            }
+        }
     }
 
     @FXML
-    void onActionDeleteCust(ActionEvent event) {
+    void onActionDeleteCust(ActionEvent event) throws SQLException {
+        Customer selectedCust = customerTableView.getSelectionModel().getSelectedItem();
+        if(selectedCust == null){
+            Alert noCustomerAlert = new Alert(Alert.AlertType.ERROR);
+            noCustomerAlert.setTitle("Customer Not Deleted");
+            noCustomerAlert.setContentText("No Customer selected to delete");
+            noCustomerAlert.showAndWait();
+            return;
+        }
 
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Customer?");
+        alert.setContentText("Press okay to confirm deletion of Customer");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if(result.get() == ButtonType.OK){
+            int DLines = customersQuery.delete(selectedCust);
+            if (DLines == 1) {
+                System.out.println("DB Delete success");
+            } else {
+                System.out.println("ERROR: Unexpected deletion of " + DLines + "lines");
+            }
+            if(Session.deleteCustomer(selectedCust)){
+                System.out.println("Java object delete success");
+            }
+        }
     }
 
     @FXML
     void onActionExitProgram(ActionEvent event) {
         System.exit(0);
-
     }
 
     @FXML
@@ -151,8 +216,24 @@ public class mainFormController implements Initializable{
     }
 
     @FXML
-    void onActionModifyAppointment(ActionEvent event) {
+    void onActionModifyAppointment(ActionEvent event) throws IOException {
+        /*if (appointmentTableView.getSelectionModel().getSelectedItem() == null){
+            System.out.println("Error: No appointment selected");
+            return;
+        }
 
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/modifyAppointment.fxml"));
+        loader.load();
+
+        modifyAppointmentController MProductController = loader.getController();
+        MProductController.sendProduct(appointmentTableView.getSelectionModel().getSelectedItem());
+        //todo implement sendAppointment on modifyAppointmentController
+
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        Parent scene = loader.getRoot();
+        stage.setScene(new Scene(scene));
+        stage.show();*/
     }
 
     @FXML
@@ -187,6 +268,16 @@ public class mainFormController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+
+        Customer testCustomer1 = new Customer(666, "Joe Tester", "1001 Main Street",
+                "76131", "888-867-5309", 42);
+
+        try {
+            customersQuery.insert(testCustomer1);
+            Session.addCustomer(testCustomer1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         customerTableView.setItems(Session.getAllCustomers());
 

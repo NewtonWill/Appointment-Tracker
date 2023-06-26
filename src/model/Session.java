@@ -14,6 +14,8 @@ public class Session {
     private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
     private static ObservableList<Contact> allContacts = FXCollections.observableArrayList();
 
+    private static ObservableList <Division> filteredDivisions = FXCollections.observableArrayList();
+
     private static String localLanguage;
     private static ZoneId localZoneId;
     private static Integer localUserId;
@@ -22,6 +24,18 @@ public class Session {
         Session.localLanguage = localLanguage;
         Session.localZoneId = localZoneId;
         Session.localUserId = localUserId;
+    }
+
+    public static ObservableList<Division> filterDivisions(Integer countryId){
+        if(!(getFilteredDivisions().isEmpty()))
+            getFilteredDivisions().clear();
+
+        for(Division divisionx : getAllDivisions()){
+            if(divisionx.getCountryId() == countryId){
+                getFilteredDivisions().add(divisionx);
+            }
+        }
+        return getFilteredDivisions();
     }
 
     /**
@@ -310,4 +324,13 @@ public class Session {
     public static void setLocalUserId(Integer localUserId) {
         Session.localUserId = localUserId;
     }
+
+    public static ObservableList<Division> getFilteredDivisions() {
+        return filteredDivisions;
+    }
+
+    public static void setFilteredDivisions(ObservableList<Division> filteredDivisions) {
+        Session.filteredDivisions = filteredDivisions;
+    }
+
 }

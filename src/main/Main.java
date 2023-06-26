@@ -38,6 +38,13 @@ public class Main extends Application {
         //opens database connection
         JDBC.openConnection();
 
+        try {
+            customersQuery.delete(666);
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         //loads Database to memory
         System.out.println("Countries loaded: " + countriesQuery.loadToMemory());
         System.out.println("Divisions loaded: " + divisionsQuery.loadToMemory());
@@ -47,6 +54,8 @@ public class Main extends Application {
 
         //Launches tests
         //TestScripts.loginTest();
+
+        TestScripts.customerAddTest();
 
 
         //launches first screen

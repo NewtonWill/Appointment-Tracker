@@ -217,7 +217,7 @@ public class mainFormController implements Initializable{
 
     @FXML
     void onActionModifyAppointment(ActionEvent event) throws IOException {
-        /*if (appointmentTableView.getSelectionModel().getSelectedItem() == null){
+        if (appointmentTableView.getSelectionModel().getSelectedItem() == null){
             System.out.println("Error: No appointment selected");
             return;
         }
@@ -226,18 +226,33 @@ public class mainFormController implements Initializable{
         loader.setLocation(getClass().getResource("/view/modifyAppointment.fxml"));
         loader.load();
 
-        modifyAppointmentController MProductController = loader.getController();
-        MProductController.sendProduct(appointmentTableView.getSelectionModel().getSelectedItem());
-        //todo implement sendAppointment on modifyAppointmentController
+        modifyAppointmentController MAppointmentController = loader.getController();
+        MAppointmentController.sendAppointment(appointmentTableView.getSelectionModel().getSelectedItem());
 
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         Parent scene = loader.getRoot();
         stage.setScene(new Scene(scene));
-        stage.show();*/
+        stage.show();
     }
 
     @FXML
-    void onActionModifyCust(ActionEvent event) {
+    void onActionModifyCust(ActionEvent event) throws IOException {
+        if (customerTableView.getSelectionModel().getSelectedItem() == null){
+            System.out.println("Error: No customer selected");
+            return;
+        }
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/modifyCustomer.fxml"));
+        loader.load();
+
+        modifyCustomerController MCustomerController = loader.getController();
+        MCustomerController.sendCustomer(customerTableView.getSelectionModel().getSelectedItem());
+
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        Parent scene = loader.getRoot();
+        stage.setScene(new Scene(scene));
+        stage.show();
 
     }
 
@@ -268,16 +283,6 @@ public class mainFormController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-
-        Customer testCustomer1 = new Customer(666, "Joe Tester", "1001 Main Street",
-                "76131", "888-867-5309", 42);
-
-        try {
-            customersQuery.insert(testCustomer1);
-            Session.addCustomer(testCustomer1);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
         customerTableView.setItems(Session.getAllCustomers());
 

@@ -25,4 +25,9 @@ public class Country {
     public void setCountryName(String countryName) {
         this.countryName = countryName;
     }
+
+    @Override
+    public String toString(){
+        return ("#" + Integer.toString(countryId) + " - " + countryName);
+    }
 }

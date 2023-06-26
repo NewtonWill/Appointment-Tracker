@@ -85,4 +85,9 @@ public class Customer {
     public void setDivisionId(Integer divisionId) {
         this.divisionId = divisionId;
     }
+
+    @Override
+    public String toString(){
+        return ("#" + Integer.toString(customerId) + " - " + name);
+    }
 }

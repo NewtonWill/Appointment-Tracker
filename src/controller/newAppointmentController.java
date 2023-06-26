@@ -11,6 +11,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.Contact;
+import model.Customer;
+import model.Session;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,10 +34,10 @@ public class newAppointmentController implements Initializable {
     private Button cancelBtn;
 
     @FXML
-    private ComboBox<?> contactCombo;
+    private ComboBox<Contact> contactCombo;
 
     @FXML
-    private ComboBox<?> customerCombo;
+    private ComboBox<Customer> customerCombo;
 
     @FXML
     private DatePicker datePicker;
@@ -72,6 +75,10 @@ public class newAppointmentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        contactCombo.setItems(Session.getAllContacts());
+        customerCombo.setItems(Session.getAllCustomers());
+
 
     }
 

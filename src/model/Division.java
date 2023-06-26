@@ -45,4 +45,9 @@ public class Division {
     public void setCountryId(Integer countryId) {
         this.countryId = countryId;
     }
+
+    @Override
+    public String toString(){
+        return ("#" + Integer.toString(divisionId) + " - " + divisionName + " [" + countryName + "]");
+    }
 }

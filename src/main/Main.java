@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Customer;
+import model.Division;
 import model.Session;
 
 import java.sql.SQLException;
@@ -67,6 +68,11 @@ public class Main extends Application {
         JDBC.closeConnection();
 
         System.exit(0);
+    }
+
+    public static boolean customerDataCheck(String name, String address, Division division, String phone, String postalCode){
+        return name != null && !name.isBlank() && address != null && !address.isBlank() && phone != null && !phone.isBlank() &&
+                postalCode != null && !postalCode.isBlank() && division != null;
     }
 
     public static void lambdas(){

@@ -76,6 +76,7 @@ public class newAppointmentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        aptIdTxt.setText(String.valueOf(Session.getNextAppointmentId()));
         contactCombo.setItems(Session.getAllContacts());
         customerCombo.setItems(Session.getAllCustomers());
 

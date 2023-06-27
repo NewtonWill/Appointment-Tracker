@@ -1,5 +1,6 @@
 package controller;
 
+import helper.customersQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import main.Main;
 import model.Country;
 import model.Customer;
 import model.Division;
@@ -17,6 +19,7 @@ import model.Session;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class modifyCustomerController implements Initializable {
@@ -62,8 +65,34 @@ public class modifyCustomerController implements Initializable {
     }
 
     @FXML
-    void onActionSaveCustomer(ActionEvent event) {
+    void onActionSaveCustomer(ActionEvent event) throws SQLException, IOException {
+        if(!Main.customerDataCheck(customerNameTxt.getText(), addressTxt.getText(), divisionCombo.getSelectionModel().getSelectedItem(),
+                phoneTxt.getText(), postalCodeTxt.getText())) {
+            System.out.println("value check fail");
+            return;
+        }
 
+
+
+        int currentIndex = Session.getAllCustomers().indexOf(Session.lookupCustomer(Integer.parseInt(customerIdTxt.getText())));
+
+        Customer newCustomer = new Customer(Integer.parseInt(customerIdTxt.getText()), customerNameTxt.getText(),
+                addressTxt.getText(), postalCodeTxt.getText(), phoneTxt.getText(),
+                divisionCombo.getSelectionModel().getSelectedItem().getDivisionId());
+
+        Session.updateCustomer(currentIndex, newCustomer); //adding new customer to java object list
+
+        if(customersQuery.update(newCustomer) == 1){
+            System.out.println("DB update success");
+        }
+        else {
+            System.out.println("DB update Error");
+        }
+
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/mainForm.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML

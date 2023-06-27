@@ -42,7 +42,7 @@ public abstract class customersQuery {
      */
     public static int insert(Customer newCustomer) throws SQLException {
         String sql = "INSERT INTO CUSTOMERS (Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division_ID, " +
-                "Create_Date, Created_By,Last_Update, Last_Updated_By) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "Create_Date, Created_By, Last_Update, Last_Updated_By) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, newCustomer.getCustomerId());
         ps.setString(2, newCustomer.getName());
@@ -71,9 +71,9 @@ public abstract class customersQuery {
         ps.setString(3, newCustomer.getPostalCode());
         ps.setString(4, newCustomer.getPhone());
         ps.setInt(5, newCustomer.getDivisionId());
-        ps.setInt(6, newCustomer.getCustomerId());
-        ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-        ps.setString(8, "User " + Session.getLocalUserId());
+        ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
+        ps.setString(7, "User " + Session.getLocalUserId());
+        ps.setInt(8, newCustomer.getCustomerId());
         return ps.executeUpdate();
     }
 

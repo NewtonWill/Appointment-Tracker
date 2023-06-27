@@ -1,8 +1,10 @@
 package model;
 
+import helper.customersQuery;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.Objects;
 
@@ -16,6 +18,9 @@ public class Session {
 
     private static ObservableList <Division> filteredDivisions = FXCollections.observableArrayList();
 
+    private static Integer nextCustomerId = 1;
+    private static Integer nextAppointmentId = 1;
+
     private static String localLanguage;
     private static ZoneId localZoneId;
     private static Integer localUserId;
@@ -24,6 +29,30 @@ public class Session {
         Session.localLanguage = localLanguage;
         Session.localZoneId = localZoneId;
         Session.localUserId = localUserId;
+    }
+
+    /**
+     * Method generates and returns a unique Customer ID
+     * @return the next generated Customer ID
+     */
+    public static Integer getNextCustomerId() {
+        do{
+            nextCustomerId++;
+        }
+        while (!(lookupCustomer(nextCustomerId) == null));
+        return nextCustomerId;
+    }
+
+    /**
+     * Method generates and returns a unique Appointment ID
+     * @return the next generated Appointment ID
+     */
+    public static Integer getNextAppointmentId() {
+        do{
+            nextAppointmentId++;
+        }
+        while (!(lookupAppointment(nextAppointmentId) == null));
+        return nextAppointmentId;
     }
 
     public static ObservableList<Division> filterDivisions(Integer countryId){
@@ -42,7 +71,7 @@ public class Session {
      * Method adds customer to allCustomers
      * @param newCustomer the Customer to add to allCustomers
      */
-    public static void addCustomer(Customer newCustomer){
+    public static void addCustomer(Customer newCustomer) throws SQLException {
         allCustomers.add(newCustomer);
     }
 

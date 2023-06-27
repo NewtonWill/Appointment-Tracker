@@ -1,5 +1,6 @@
 package controller;
 
+import helper.customersQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,9 +11,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import main.Main;
+import model.Country;
+import model.Customer;
+import model.Division;
+import model.Session;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class newCustomerController implements Initializable {
@@ -27,7 +34,7 @@ public class newCustomerController implements Initializable {
     private Button cancelBtn;
 
     @FXML
-    private ComboBox<?> countryCombo;
+    private ComboBox<Country> countryCombo;
 
     @FXML
     private TextField customerIdTxt;
@@ -36,7 +43,7 @@ public class newCustomerController implements Initializable {
     private TextField customerNameTxt;
 
     @FXML
-    private ComboBox<?> divisionCombo;
+    private ComboBox<Division> divisionCombo;
 
     @FXML
     private TextField phoneTxt;
@@ -57,18 +64,37 @@ public class newCustomerController implements Initializable {
 
     @FXML
     void onActionCountry(ActionEvent event) {
-
-
+        divisionCombo.setItems(Session.filterDivisions(countryCombo.getSelectionModel().getSelectedItem().getCountryId()));
+        divisionCombo.setDisable(false);
     }
 
     @FXML
-    void onActionSaveCustomer(ActionEvent event) {
+    void onActionSaveCustomer(ActionEvent event) throws SQLException, IOException {
+
+        if(!Main.customerDataCheck(customerNameTxt.getText(), addressTxt.getText(), divisionCombo.getSelectionModel().getSelectedItem(),
+                phoneTxt.getText(), postalCodeTxt.getText())) {
+            System.out.println("value check fail");
+            return;
+        }
+        Customer newCustomer = new Customer(Integer.parseInt(customerIdTxt.getText()), customerNameTxt.getText(),
+                addressTxt.getText(), postalCodeTxt.getText(), phoneTxt.getText(),
+                divisionCombo.getSelectionModel().getSelectedItem().getDivisionId());
+
+        Session.addCustomer(newCustomer); //adding new customer to java object list
+        customersQuery.insert(newCustomer); //adding new customer to database
+
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/mainForm.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        countryCombo.setItems(Session.getAllCountries());
+        divisionCombo.setDisable(true);
+        customerIdTxt.setText(String.valueOf(Session.getNextCustomerId()));
     }
 
 }

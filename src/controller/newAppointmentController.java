@@ -1,5 +1,6 @@
 package controller;
 
+import helper.appointmentsQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,12 +10,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import main.Main;
+import model.Appointment;
 import model.Contact;
 import model.Customer;
 import model.Session;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.*;
 import java.util.ResourceBundle;
 
@@ -83,7 +86,7 @@ public class newAppointmentController implements Initializable {
     }
 
     @FXML
-    void onActionSaveBtn(ActionEvent event) {
+    void onActionSaveBtn(ActionEvent event) throws SQLException, IOException {
 
         if(customerCombo.getSelectionModel().getSelectedItem() == null && contactCombo.getSelectionModel().getSelectedItem() == null){
             System.out.println("Customer and Contact combo boxes must be selected");
@@ -125,6 +128,21 @@ public class newAppointmentController implements Initializable {
 
         System.out.println("Appointment okay!");
 
+        startZDT = startZDT.withZoneSameInstant(ZoneId.of("UTC"));
+        endZDT = endZDT.withZoneSameInstant(ZoneId.of("UTC"));
+
+        Appointment newAppointment = new Appointment(Integer.parseInt(aptIdTxt.getText()), titleTxt.getText(), descriptionTxt.getText(), locationTxt.getText(),
+                contactCombo.getSelectionModel().getSelectedItem().getContactId(), typeTxt.getText(), startZDT.toLocalDateTime(), endZDT.toLocalDateTime(),
+                customerCombo.getSelectionModel().getSelectedItem().getCustomerId(), Session.getLocalUserId());
+
+        Session.addAppointment(newAppointment);
+        appointmentsQuery.insert(newAppointment);
+
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/mainForm.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+
 
     }
 
@@ -143,7 +161,7 @@ public class newAppointmentController implements Initializable {
             endHour.getItems().add(i);
         }
 
-        for(Integer i = 0; i < 60; i= i++){
+        for(Integer i = 0; i < 60; i++){
             startMinute.getItems().add(i);
             endMinute.getItems().add(i);
         }

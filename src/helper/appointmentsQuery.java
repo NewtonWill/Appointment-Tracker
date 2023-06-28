@@ -89,9 +89,9 @@ public abstract class appointmentsQuery {
         ps.setInt(7, newAppointment.getCustomer_ID());
         ps.setInt(8, newAppointment.getUser_ID());
         ps.setInt(9, newAppointment.getContactID());
-        ps.setInt(10, newAppointment.getAppointmentId());
-        ps.setTimestamp(11, Timestamp.valueOf(LocalDateTime.now()));
-        ps.setString(12, "User " + Session.getLocalUserId());
+        ps.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));
+        ps.setString(11, "User " + Session.getLocalUserId());
+        ps.setInt(12, newAppointment.getAppointmentId());
         return ps.executeUpdate();
     }
 

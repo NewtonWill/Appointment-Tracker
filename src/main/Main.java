@@ -97,8 +97,8 @@ public class Main extends Application {
             if(Objects.equals(appointmentX.getCustomer_ID(), customerId) && !Objects.equals(appointmentX.getAppointmentId(), appointmentId)){
                 //above checks if the rotating appointmentX is for the same customer, and if so will make sure it is not the same appointment
 
-                ZonedDateTime startX = appointmentX.getStartDT().atZone(ZoneId.of("UTC"));
-                ZonedDateTime endX = appointmentX.getStartDT().atZone(ZoneId.of("UTC"));
+                ZonedDateTime startX = appointmentX.getStartDT().atZone(ZoneId.of("UTC")).withZoneSameInstant(Session.getLocalZoneId());
+                ZonedDateTime endX = appointmentX.getStartDT().atZone(ZoneId.of("UTC")).withZoneSameInstant(Session.getLocalZoneId());
 
                 if((start.isAfter(startX) || start.isEqual(startX)) && start.isBefore(endX)){
                     System.out.println("Scenario 1: Start is in window");

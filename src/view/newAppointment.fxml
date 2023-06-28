@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -38,8 +39,9 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Date" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Time" />
                      </children>
                      <padding>
@@ -49,15 +51,44 @@
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="200.0" spacing="16.0">
                      <children>
                         <TextField fx:id="aptIdTxt" disable="true" editable="false" />
-                        <ComboBox fx:id="customerCombo" prefWidth="200.0" promptText="Customer name // ID #" />
-                        <ComboBox fx:id="contactCombo" prefWidth="200.0" promptText="Contact Name // ID #" />
+                        <ComboBox fx:id="customerCombo" prefWidth="200.0" />
+                        <ComboBox fx:id="contactCombo" prefWidth="200.0" />
                         <TextField fx:id="titleTxt" />
                         <TextField fx:id="descriptionTxt" />
-                        <TextField fx:id="LocationTxt" />
+                        <TextField fx:id="locationTxt" />
                         <TextField fx:id="typeTxt" />
-                        <DatePicker fx:id="datePicker" />
-                        <TextField fx:id="startTimeTxt" />
-                        <TextField fx:id="endTimeTxt" />
+                        <DatePicker fx:id="startDatePicker" />
+                        <HBox prefHeight="20.0" prefWidth="200.0">
+                           <children>
+                              <ComboBox fx:id="startHour" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="55.0" />
+                              <Label alignment="CENTER" prefHeight="25.0" prefWidth="15.0" text=":" />
+                              <ComboBox fx:id="startMinute" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="55.0" />
+                              <Label fx:id="zoneLabel1" prefHeight="25.0" prefWidth="75.0" text="Label">
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="8.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <DatePicker fx:id="endDatePicker" />
+                        <HBox prefHeight="20.0" prefWidth="200.0">
+                           <children>
+                              <ComboBox fx:id="endHour" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="55.0" />
+                              <Label alignment="CENTER" prefHeight="25.0" prefWidth="15.0" text=":" />
+                              <ComboBox fx:id="endMinute" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="55.0" />
+                              <Label fx:id="zoneLabel2" prefHeight="25.0" prefWidth="75.0" text="Label">
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="8.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
                      <padding>
                         <Insets top="10.0" />

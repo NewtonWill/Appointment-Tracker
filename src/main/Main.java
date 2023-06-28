@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Customer;
+import model.Appointment;
 import model.Division;
 import model.Session;
 
@@ -73,6 +73,57 @@ public class Main extends Application {
     public static boolean customerDataCheck(String name, String address, Division division, String phone, String postalCode){
         return name != null && !name.isBlank() && address != null && !address.isBlank() && phone != null && !phone.isBlank() &&
                 postalCode != null && !postalCode.isBlank() && division != null;
+    }
+
+    public static ZonedDateTime appointmentValidTimeCheck(LocalDate date, Integer hour, Integer minute){
+        if (date == null){
+            System.out.println("Date invalid");
+            return null;
+        }
+        if (hour == null || minute == null){
+            System.out.println("Time invalid");
+            return null;
+        }
+        LocalTime time = LocalTime.of(hour, minute);
+        return ZonedDateTime.of(date, time, Session.getLocalZoneId());
+    }
+
+    public static boolean appointmentFullCheck(ZonedDateTime start, ZonedDateTime end, Integer customerId, Integer appointmentId){
+        if (end.isBefore(start) || end.equals(start)){
+            System.out.println("Error: Appointment cannot end before or at start");
+            return false;
+        }
+        for(Appointment appointmentX : Session.getAllAppointments()){
+            if(Objects.equals(appointmentX.getCustomer_ID(), customerId) && !Objects.equals(appointmentX.getAppointmentId(), appointmentId)){
+                //above checks if the rotating appointmentX is for the same customer, and if so will make sure it is not the same appointment
+
+                ZonedDateTime startX = appointmentX.getStartDT().atZone(ZoneId.of("UTC"));
+                ZonedDateTime endX = appointmentX.getStartDT().atZone(ZoneId.of("UTC"));
+
+                if((start.isAfter(startX) || start.isEqual(startX)) && start.isBefore(endX)){
+                    System.out.println("Scenario 1: Start is in window");
+                    System.out.println("StartX: " + startX + " EndX: " + endX);
+                    System.out.println("Start: " + start + " End: " + end);
+                    return false;
+                }
+
+                if(end.isAfter(startX) && (end.isBefore(endX) || end.isEqual(endX))){
+                    System.out.println("Scenario 2: End is in the window");
+                    System.out.println("StartX: " + startX + " EndX: " + endX);
+                    System.out.println("Start: " + start + " End: " + end);
+                    return false;
+                }
+
+                if((start.isBefore(startX) || start.isEqual(startX)) && (end.isAfter(endX) || end.isEqual(endX))){
+                    System.out.println("Scenario 3: Start and end are both outside of window");
+                    System.out.println("StartX: " + startX + " EndX: " + endX);
+                    System.out.println("Start: " + start + " End: " + end);
+                    return false;
+                }
+
+            }
+        }
+        return true;
     }
 
     public static void lambdas(){

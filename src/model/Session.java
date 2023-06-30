@@ -3,8 +3,12 @@ package model;
 import helper.customersQuery;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 import java.time.ZoneId;
 import java.util.Objects;
 
@@ -17,6 +21,37 @@ public class Session {
     private static ObservableList<Contact> allContacts = FXCollections.observableArrayList();
 
     private static ObservableList <Division> filteredDivisions = FXCollections.observableArrayList();
+    private static ObservableList <Appointment> filteredAppointments = FXCollections.observableArrayList();
+
+    public static ObservableList<Month> getAllMonths() {
+        return allMonths;
+    }
+
+    public static void setAllMonths(ObservableList<Month> allMonths) {
+        Session.allMonths = allMonths;
+    }
+
+    public static ObservableList<Integer> getAllYears() {
+        return allYears;
+    }
+
+    public static void setAllYears(ObservableList<Integer> allYears) {
+        Session.allYears = allYears;
+    }
+
+    private static ObservableList <Month> allMonths = FXCollections.observableArrayList(Month.values());
+    private static ObservableList <Integer> allYears = FXCollections.observableArrayList();
+
+    public static LocalDate getCurrentSunday() {
+        return currentSunday;
+    }
+
+    public static void setCurrentSunday(LocalDate currentSunday) {
+        Session.currentSunday = currentSunday;
+    }
+
+    private static LocalDate currentSunday;
+
 
     private static Integer nextCustomerId = 1;
     private static Integer nextAppointmentId = 1;
@@ -29,6 +64,64 @@ public class Session {
         Session.localLanguage = localLanguage;
         Session.localZoneId = localZoneId;
         Session.localUserId = localUserId;
+    }
+
+    /**
+     * Method generates a list of appointments that correspond to specified week
+     * @param firstDay the day to index by
+     * @return the list of appointments
+     */
+    public static ObservableList<Appointment> appointmentGetWeek (LocalDate firstDay){
+
+        if(!(getFilteredAppointments().isEmpty()))
+            getFilteredAppointments().clear();
+
+        LocalDate lastDay = firstDay.plusDays(6);
+
+        for(Appointment appointmentX : getAllAppointments()){
+
+            LocalDate appDate = appointmentX.getStartDT().toLocalDate();
+
+            if(appDate.isEqual(firstDay) || appDate.isEqual(lastDay) || (appDate.isAfter(firstDay) && appDate.isBefore(lastDay))){
+                getFilteredAppointments().add(appointmentX);
+            }
+        }
+
+        if(getFilteredAppointments().isEmpty()) {
+            System.out.println("No matching appointments found");
+            /*Alert noMatchAlert = new Alert(Alert.AlertType.WARNING);
+            noMatchAlert.setTitle("Appointment Search Error");
+            noMatchAlert.setContentText("No matching Appointment(s) found");
+            noMatchAlert.show();*/
+        }
+        return getFilteredAppointments();
+    }
+
+
+    /**
+     * Method generates a list of appointments that correspond to specified month
+     * @param month the month to index by
+     * @return the list of appointments
+     */
+    public static ObservableList<Appointment> appointmentGetMonth (Month month, Integer year){
+
+        if(!(getFilteredAppointments().isEmpty()))
+            getFilteredAppointments().clear();
+
+        for(Appointment appointmentX : getAllAppointments()){
+            if(appointmentX.getStartDT().getYear() == year && appointmentX.getStartDT().getMonth().equals(month)){
+                getFilteredAppointments().add(appointmentX);
+            }
+        }
+
+        if(getFilteredAppointments().isEmpty()) {
+            System.out.println("No matching appointments found");
+            /*Alert noMatchAlert = new Alert(Alert.AlertType.WARNING);
+            noMatchAlert.setTitle("Appointment Search Error");
+            noMatchAlert.setContentText("No matching Appointment(s) found");
+            noMatchAlert.show();*/
+        }
+        return getFilteredAppointments();
     }
 
     /**
@@ -360,6 +453,14 @@ public class Session {
 
     public static void setFilteredDivisions(ObservableList<Division> filteredDivisions) {
         Session.filteredDivisions = filteredDivisions;
+    }
+
+    public static ObservableList<Appointment> getFilteredAppointments() {
+        return filteredAppointments;
+    }
+
+    public static void setFilteredAppointments(ObservableList<Appointment> filteredAppointments) {
+        Session.filteredAppointments = filteredAppointments;
     }
 
 }

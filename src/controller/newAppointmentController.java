@@ -166,6 +166,10 @@ public class newAppointmentController implements Initializable {
             endMinute.getItems().add(i);
         }
 
+        startHour.getSelectionModel().selectFirst();
+        startMinute.getSelectionModel().selectFirst();
+        endHour.getSelectionModel().selectFirst();
+        endMinute.getSelectionModel().selectFirst();
 
     }
 

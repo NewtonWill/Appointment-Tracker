@@ -1,6 +1,5 @@
 package controller;
 
-import helper.customersQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -92,13 +91,23 @@ public class loginController implements Initializable {
             stage.show();
         }
         else {
+            Alert loginError = new Alert(Alert.AlertType.WARNING);
+            if(String.valueOf(Session.getLocalLanguage()).equals("fr")){
+                loginError.setTitle("Erreur de connexion");
+                loginError.setContentText("Le nom d'utilisateur ou le mot de passe était incorrect");
+            }
+            else{
+                loginError.setTitle("Login Error");
+                loginError.setContentText("Username or password was incorrect");
+            }
+            loginError.showAndWait();
             System.out.println("Login unsuccessful");
         }
     }
 
     @FXML
-    void onActionCancelBtn(ActionEvent event) throws SQLException {
-        customersQuery.loadToMemory();
+    void onActionCancelBtn(ActionEvent event) {
+        System.exit(0);
     }
 
     @FXML
@@ -114,6 +123,16 @@ public class loginController implements Initializable {
             stage.show();
         }
         else {
+            Alert loginError = new Alert(Alert.AlertType.WARNING);
+            if(String.valueOf(Session.getLocalLanguage()).equals("fr")){
+                loginError.setTitle("Erreur de connexion");
+                loginError.setContentText("Le nom d'utilisateur ou le mot de passe était incorrect");
+            }
+            else{
+                loginError.setTitle("Login Error");
+                loginError.setContentText("Username or password was incorrect");
+            }
+            loginError.showAndWait();
             System.out.println("Login unsuccessful");
         }
     }

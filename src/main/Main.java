@@ -1,7 +1,10 @@
 package main;
 
+import com.mysql.cj.result.LocalDateValueFactory;
 import helper.*;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -58,6 +61,13 @@ public class Main extends Application {
 
         TestScripts.customerAddTest();
 
+        //set range of appointment filtering years
+        ObservableList<Integer> yearsSet = FXCollections.observableArrayList();
+        for(Integer i = 2000; i <= 2030; i++){
+            yearsSet.add(i);
+        }
+        Session.setAllYears(yearsSet);
+
 
         //launches first screen
         launch(args);
@@ -68,6 +78,14 @@ public class Main extends Application {
         JDBC.closeConnection();
 
         System.exit(0);
+    }
+
+    public static LocalDate getFirstWeekDate(Month month, int year){
+        LocalDate dayOne = LocalDate.of(year, month, 1);
+        while(dayOne.getDayOfWeek() != DayOfWeek.SUNDAY){
+            dayOne = dayOne.minusDays(1);
+        }
+        return dayOne;
     }
 
     public static boolean customerDataCheck(String name, String address, Division division, String phone, String postalCode){

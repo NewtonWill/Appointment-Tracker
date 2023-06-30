@@ -81,10 +81,11 @@
                         </HBox>
                         <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="690.0" spacing="50.0">
                            <children>
+                              <RadioButton fx:id="allRadio" mnemonicParsing="false" onAction="#onActionAllRadio" text="All" />
                               <RadioButton fx:id="monthRadio" mnemonicParsing="false" onAction="#onActionMonthRadio" text="Sort by Month" />
                               <RadioButton fx:id="weekRadio" mnemonicParsing="false" onAction="#onActionWeekRadio" text="Sort by Week" />
                               <ComboBox fx:id="monthSelect" onAction="#onActionMonthSelect" prefWidth="120.0" promptText="Select Month" />
-                              <ComboBox fx:id="yearSelect1" onAction="#onActionYearSelect" prefWidth="100.0" promptText="Select Year" />
+                              <ComboBox fx:id="yearSelect" onAction="#onActionYearSelect" prefWidth="100.0" promptText="Select Year" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="690.0" spacing="50.0">

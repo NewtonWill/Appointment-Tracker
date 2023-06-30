@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import main.Main;
 import model.Appointment;
 import model.Customer;
 import model.Session;
@@ -19,6 +20,9 @@ import model.Session;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -109,7 +113,7 @@ public class mainFormController implements Initializable{
     private RadioButton monthRadio;
 
     @FXML
-    private ComboBox<?> monthSelect;
+    private ComboBox<Month> monthSelect;
 
     @FXML
     private TableView<Customer> customerTableView;
@@ -124,7 +128,10 @@ public class mainFormController implements Initializable{
     private RadioButton weekRadio;
 
     @FXML
-    private ComboBox<?> yearSelect1;
+    private ComboBox<Integer> yearSelect;
+
+    @FXML
+    private RadioButton allRadio;
 
     /**
      * Method brings user to the new appointment form
@@ -150,6 +157,7 @@ public class mainFormController implements Initializable{
     @FXML
     void onActionDeleteAppointment(ActionEvent event) throws SQLException {
         Appointment selectedAppt = appointmentTableView.getSelectionModel().getSelectedItem();
+
         if(selectedAppt == null){
             Alert noAppointmentAlert = new Alert(Alert.AlertType.ERROR);
             noAppointmentAlert.setTitle("Appointment Not Deleted");
@@ -210,10 +218,6 @@ public class mainFormController implements Initializable{
         System.exit(0);
     }
 
-    @FXML
-    void onActionLeftBtn(ActionEvent event) {
-
-    }
 
     @FXML
     void onActionModifyAppointment(ActionEvent event) throws IOException {
@@ -257,27 +261,127 @@ public class mainFormController implements Initializable{
     }
 
     @FXML
+    void onActionAllRadio(ActionEvent event){
+        monthRadio.setSelected(false);
+        weekRadio.setSelected(false);
+
+        appointmentTableView.setItems(Session.getAllAppointments());
+
+        leftBtn.setDisable(true);
+        rightBtn.setDisable(true);
+        monthSelect.setDisable(true);
+        yearSelect.setDisable(true);
+
+        dateDisplay.setText("All appointments");
+    }
+
+    @FXML
     void onActionMonthRadio(ActionEvent event) {
+        allRadio.setSelected(false);
+        weekRadio.setSelected(false);
 
-    }
+        appointmentTableView.setItems(Session.appointmentGetMonth(monthSelect.getSelectionModel().getSelectedItem(), yearSelect.getSelectionModel().getSelectedItem()));
 
-    @FXML
-    void onActionMonthSelect(ActionEvent event) {
+        leftBtn.setDisable(false);
+        rightBtn.setDisable(false);
+        monthSelect.setDisable(false);
+        yearSelect.setDisable(false);
 
-    }
-
-    @FXML
-    void onActionRightBtn(ActionEvent event) {
-
+        dateDisplay.setText(monthSelect.getSelectionModel().getSelectedItem().toString());
     }
 
     @FXML
     void onActionWeekRadio(ActionEvent event) {
+        allRadio.setSelected(false);
+        monthRadio.setSelected(false);
 
+        Session.setCurrentSunday(Main.getFirstWeekDate(monthSelect.getSelectionModel().getSelectedItem(), yearSelect.getValue()));
+        appointmentTableView.setItems(Session.appointmentGetWeek(Session.getCurrentSunday()));
+
+        dateDisplay.setText("Week starting with Sunday " + Session.getCurrentSunday());
+
+        leftBtn.setDisable(false);
+        rightBtn.setDisable(false);
+        monthSelect.setDisable(false);
+        yearSelect.setDisable(false);
+    }
+
+
+
+    @FXML
+    void onActionMonthSelect(ActionEvent event) {
+        if(monthRadio.isSelected()){
+            appointmentTableView.setItems(Session.appointmentGetMonth(monthSelect.getSelectionModel().getSelectedItem(), yearSelect.getSelectionModel().getSelectedItem()));
+        }
+        else if(weekRadio.isSelected()) {
+            Session.setCurrentSunday(Main.getFirstWeekDate(monthSelect.getSelectionModel().getSelectedItem(), yearSelect.getValue()));
+            appointmentTableView.setItems(Session.appointmentGetWeek(Session.getCurrentSunday()));
+            dateDisplay.setText("Week starting with Sunday " + Session.getCurrentSunday());
+        }
     }
 
     @FXML
     void onActionYearSelect(ActionEvent event) {
+        if(monthRadio.isSelected()){
+            appointmentTableView.setItems(Session.appointmentGetMonth(monthSelect.getSelectionModel().getSelectedItem(), yearSelect.getSelectionModel().getSelectedItem()));
+        }
+        else if(weekRadio.isSelected()) {
+            Session.setCurrentSunday(Main.getFirstWeekDate(monthSelect.getSelectionModel().getSelectedItem(), yearSelect.getValue()));
+            appointmentTableView.setItems(Session.appointmentGetWeek(Session.getCurrentSunday()));
+            dateDisplay.setText("Week starting with Sunday " + Session.getCurrentSunday());
+        }
+    }
+
+
+    @FXML
+    void onActionRightBtn(ActionEvent event) {
+
+        if(weekRadio.isSelected()){
+            if(!Session.getCurrentSunday().plusWeeks(1).getMonth().equals(monthSelect.getSelectionModel().getSelectedItem())){
+                System.out.println("End of month reached");
+                return;
+            }
+
+            Session.setCurrentSunday(Session.getCurrentSunday().plusWeeks(1));
+            appointmentTableView.setItems(Session.appointmentGetWeek(Session.getCurrentSunday()));
+
+            dateDisplay.setText("Week starting with Sunday " + Session.getCurrentSunday());
+        }
+
+        if(monthRadio.isSelected()){
+            monthSelect.setValue(monthSelect.getValue().plus(1));
+            dateDisplay.setText(monthSelect.getSelectionModel().getSelectedItem().toString());
+        }
+
+    }
+
+    @FXML
+    void onActionLeftBtn(ActionEvent event) {
+
+        if(weekRadio.isSelected()){
+            if(!Session.getCurrentSunday().getMonth().equals(monthSelect.getSelectionModel().getSelectedItem())){
+                //Sunday is already a member of previous month
+                System.out.println("Beginning of month reached: Scenario 1");
+                return;
+            }
+
+            /*LocalDate saturday = Session.getCurrentSunday().plusDays(6);
+            if(!saturday.getMonth().equals(monthSelect.getSelectionModel().getSelectedItem())){
+                //saturday is member of previous month
+                System.out.println("Beginning of month reached: Scenario 2");
+                return;
+            }*/
+
+            Session.setCurrentSunday(Session.getCurrentSunday().minusWeeks(1));
+            appointmentTableView.setItems(Session.appointmentGetWeek(Session.getCurrentSunday()));
+
+            dateDisplay.setText("Week starting with Sunday " + Session.getCurrentSunday());
+        }
+
+        if(monthRadio.isSelected()){
+            monthSelect.setValue(monthSelect.getValue().minus(1));
+            dateDisplay.setText(monthSelect.getSelectionModel().getSelectedItem().toString());
+        }
 
     }
 
@@ -307,6 +411,23 @@ public class mainFormController implements Initializable{
         apptEndCol.setCellValueFactory(new PropertyValueFactory<>("EndDT"));
         apptCIDCol.setCellValueFactory(new PropertyValueFactory<>("Customer_ID"));
         apptUIDCol.setCellValueFactory(new PropertyValueFactory<>("User_ID"));
+
+        allRadio.setSelected(true);
+
+        monthSelect.setItems(Session.getAllMonths());
+        monthSelect.getSelectionModel().selectFirst();
+
+        yearSelect.setItems(Session.getAllYears());
+        yearSelect.getSelectionModel().selectFirst();
+
+        Session.setCurrentSunday(Main.getFirstWeekDate(monthSelect.getSelectionModel().getSelectedItem(), yearSelect.getValue()));
+
+        leftBtn.setDisable(true);
+        rightBtn.setDisable(true);
+        monthSelect.setDisable(true);
+        yearSelect.setDisable(true);
+
+        dateDisplay.setText("All appointments");
     }
 
 }

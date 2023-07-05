@@ -76,6 +76,18 @@ public class Session {
         Session.localUserId = localUserId;
     }
 
+    public static ObservableList<Appointment> appointmentsForContact(Contact contact){
+        if(!(getFilteredAppointments().isEmpty()))
+            getFilteredAppointments().clear();
+
+        for(Appointment appointmentX : getAllAppointments()){
+            if(appointmentX.getContactID().equals(contact.getContactId())){
+                getFilteredAppointments().add(appointmentX);
+            }
+        }
+        return getFilteredAppointments();
+    }
+
     /**
      * Method generates a list of appointments that correspond to specified week
      * @param firstDay the day to index by

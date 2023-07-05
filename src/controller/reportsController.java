@@ -24,13 +24,19 @@ public class reportsController {
     }
 
     @FXML
-    void onActionReport1(ActionEvent event) {
-
+    void onActionReport1(ActionEvent event) throws IOException {
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/monthTypeReport.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML
-    void onActionReport2(ActionEvent event) {
-
+    void onActionReport2(ActionEvent event) throws IOException {
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/scheduleReport.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML

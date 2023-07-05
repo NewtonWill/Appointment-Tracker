@@ -43,12 +43,12 @@
                         </HBox>
                         <TableView fx:id="customerTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="540.0">
                           <columns>
-                            <TableColumn fx:id="custCIDCol" prefWidth="50.0" text="CID" />
+                            <TableColumn fx:id="custCIDCol" maxWidth="75.0" prefWidth="40.0" text="CID" />
                             <TableColumn fx:id="custNameCol" prefWidth="100.0" text="Name" />
                               <TableColumn fx:id="custPhoneCol" text="Phone" />
                               <TableColumn fx:id="custAddressCol" prefWidth="100.0" text="Address" />
                               <TableColumn fx:id="custCountryCol" text="Country" />
-                              <TableColumn fx:id="custDivisionCol" text="Division" />
+                              <TableColumn fx:id="custDivisionCol" maxWidth="80.0" text="Division" />
                               <TableColumn fx:id="custZipCol" prefWidth="50.0" text="Zip" />
                           </columns>
                         </TableView>

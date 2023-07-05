@@ -52,6 +52,16 @@ public class Session {
 
     private static LocalDate currentSunday;
 
+    public static boolean isFirstTimeMainForm() {
+        return firstTimeMainForm;
+    }
+
+    public static void setFirstTimeMainForm(boolean firstTimeMainForm) {
+        Session.firstTimeMainForm = firstTimeMainForm;
+    }
+
+    private static boolean firstTimeMainForm = true;
+
 
     private static Integer nextCustomerId = 1;
     private static Integer nextAppointmentId = 1;

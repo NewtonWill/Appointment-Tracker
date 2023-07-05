@@ -28,6 +28,11 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
+                              <Button mnemonicParsing="false" onAction="#onActionReportsButton" text="Reports">
+                                 <HBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </HBox.margin>
+                              </Button>
                            </children>
                            <VBox.margin>
                               <Insets />

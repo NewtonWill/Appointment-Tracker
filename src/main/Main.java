@@ -1,6 +1,5 @@
 package main;
 
-import com.mysql.cj.result.LocalDateValueFactory;
 import helper.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -8,6 +7,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Division;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 import java.time.*;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.TimeZone;
 
 public class Main extends Application {
@@ -88,6 +90,32 @@ public class Main extends Application {
         return dayOne;
     }
 
+    public static void fifteenMinuteCheck(){
+
+        if(!Session.isFirstTimeMainForm()){
+            return;
+        }
+
+        LocalDateTime nowPlusFifteen = LocalDateTime.now().plusMinutes(15);
+
+        for(Appointment appointmentX : Session.getAllAppointments()){
+            if (appointmentX.getStartDT().isAfter(LocalDateTime.now()) && appointmentX.getStartDT().isBefore(nowPlusFifteen)){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Upcoming Appointment");
+                alert.setContentText("Appointment ID#" + appointmentX.getAppointmentId() + ": " + appointmentX.getTitle() + " starts within the next 15 minutes");
+                Optional<ButtonType> result = alert.showAndWait();
+                Session.setFirstTimeMainForm(false);
+                return;
+            }
+        }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("No Upcoming Appointment");
+        alert.setContentText("There are no appointments starting within the next 15 minutes");
+        Optional<ButtonType> result = alert.showAndWait();
+        Session.setFirstTimeMainForm(false);
+    }
+
     public static boolean customerDataCheck(String name, String address, Division division, String phone, String postalCode){
         return name != null && !name.isBlank() && address != null && !address.isBlank() && phone != null && !phone.isBlank() &&
                 postalCode != null && !postalCode.isBlank() && division != null;
@@ -111,6 +139,26 @@ public class Main extends Application {
             System.out.println("Error: Appointment cannot end before or at start");
             return false;
         }
+
+        ZonedDateTime opening = ZonedDateTime.of(start.toLocalDate(), LocalTime.of(8, 0), ZoneId.of("America/New_York")).withZoneSameInstant(Session.getLocalZoneId());
+        ZonedDateTime closing = ZonedDateTime.of(start.toLocalDate(), LocalTime.of(22, 0), ZoneId.of("America/New_York")).withZoneSameInstant(Session.getLocalZoneId());
+        if (opening.isAfter(start) || closing.isBefore(end)){
+            if (opening.isAfter(start)){
+                System.out.println("Open Time: " + opening);
+                System.out.println("Start Time: " + start);
+            }
+            if (closing.isBefore(end)){
+                System.out.println("Closing Time: " + closing);
+                System.out.println("end Time: " + end);
+            }
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("INVALID TIME");
+            alert.setContentText("Appointments must be set between the hours of 8 AM to 10 PM EST of a single day");
+            Optional<ButtonType> result = alert.showAndWait();
+            return false;
+        }
+
         for(Appointment appointmentX : Session.getAllAppointments()){
             if(Objects.equals(appointmentX.getCustomer_ID(), customerId) && !Objects.equals(appointmentX.getAppointmentId(), appointmentId)){
                 //above checks if the rotating appointmentX is for the same customer, and if so will make sure it is not the same appointment
@@ -118,10 +166,15 @@ public class Main extends Application {
                 ZonedDateTime startX = appointmentX.getStartDT().atZone(ZoneId.of("UTC")).withZoneSameInstant(Session.getLocalZoneId());
                 ZonedDateTime endX = appointmentX.getStartDT().atZone(ZoneId.of("UTC")).withZoneSameInstant(Session.getLocalZoneId());
 
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Appointment overlap");
+                alert.setContentText("Appointments with the same customer cannot be overlapping");
+
                 if((start.isAfter(startX) || start.isEqual(startX)) && start.isBefore(endX)){
                     System.out.println("Scenario 1: Start is in window");
                     System.out.println("StartX: " + startX + " EndX: " + endX);
                     System.out.println("Start: " + start + " End: " + end);
+
                     return false;
                 }
 
@@ -129,6 +182,7 @@ public class Main extends Application {
                     System.out.println("Scenario 2: End is in the window");
                     System.out.println("StartX: " + startX + " EndX: " + endX);
                     System.out.println("Start: " + start + " End: " + end);
+                    Optional<ButtonType> result = alert.showAndWait();
                     return false;
                 }
 
@@ -136,6 +190,7 @@ public class Main extends Application {
                     System.out.println("Scenario 3: Start and end are both outside of window");
                     System.out.println("StartX: " + startX + " EndX: " + endX);
                     System.out.println("Start: " + start + " End: " + end);
+                    Optional<ButtonType> result = alert.showAndWait();
                     return false;
                 }
 

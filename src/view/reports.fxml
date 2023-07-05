@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.reportsController">
+   <children>
+      <HBox prefHeight="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" />
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="25.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="100.0" text="REPORTS">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
+                  <Button mnemonicParsing="false" onAction="#onActionReport1" prefHeight="50.0" prefWidth="100.0" text="Appointments by Type and Month" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#onActionReport2" prefHeight="50.0" prefWidth="100.0" text="Contact Schedule" textAlignment="CENTER" wrapText="true" />
+                  <Button mnemonicParsing="false" onAction="#onActionReport3" prefHeight="50.0" prefWidth="100.0" text="Report 3" textAlignment="CENTER" />
+               </children>
+            </VBox>
+            <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onActionBackButton" text="Back">
+                     <VBox.margin>
+                        <Insets bottom="50.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

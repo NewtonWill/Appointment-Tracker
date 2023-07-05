@@ -1,6 +1,10 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class Appointment {
 
@@ -108,5 +112,16 @@ public class Appointment {
 
     public void setUser_ID(Integer user_ID) {
         User_ID = user_ID;
+    }
+
+    public String getEndLocalZone(){
+        ZonedDateTime endZDT = ZonedDateTime.of(getEndDT(), ZoneId.of("UTC"));
+        String endLocal = endZDT.withZoneSameInstant(Session.getLocalZoneId()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
+        return endLocal;
+    }
+    public String getStartLocalZone(){
+        ZonedDateTime startZDT = ZonedDateTime.of(getEndDT(), ZoneId.of("UTC"));
+        String startLocal = startZDT.withZoneSameInstant(Session.getLocalZoneId()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
+        return startLocal;
     }
 }

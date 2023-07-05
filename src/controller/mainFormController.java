@@ -147,6 +147,14 @@ public class mainFormController implements Initializable{
     }
 
     @FXML
+    void onActionReportsButton(ActionEvent event) throws IOException {
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/reports.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+    @FXML
     void onActionAddCust(ActionEvent event) throws IOException{
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/newCustomer.fxml"));
@@ -167,8 +175,8 @@ public class mainFormController implements Initializable{
         }
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Appointment?");
-        alert.setContentText("Press okay to confirm deletion of Appointment");
+        alert.setTitle("Appointment ID " + selectedAppt.getAppointmentId());
+        alert.setContentText("Press okay to confirm deletion of Appointment " + selectedAppt.getAppointmentId() + ", " + selectedAppt.getType());
         Optional<ButtonType> result = alert.showAndWait();
 
         if(result.get() == ButtonType.OK){
@@ -187,6 +195,17 @@ public class mainFormController implements Initializable{
     @FXML
     void onActionDeleteCust(ActionEvent event) throws SQLException {
         Customer selectedCust = customerTableView.getSelectionModel().getSelectedItem();
+
+        for(Appointment appointmentX : Session.getAllAppointments()){
+            if(selectedCust.getCustomerId().equals(appointmentX.getCustomer_ID())){
+                Alert noAppointmentAlert = new Alert(Alert.AlertType.ERROR);
+                noAppointmentAlert.setTitle("Customer Not Deleted");
+                noAppointmentAlert.setContentText("Customer record cannot be deleted until all associated appointments are deleted");
+                noAppointmentAlert.showAndWait();
+                return;
+            }
+        }
+
         if(selectedCust == null){
             Alert noCustomerAlert = new Alert(Alert.AlertType.ERROR);
             noCustomerAlert.setTitle("Customer Not Deleted");
@@ -407,8 +426,8 @@ public class mainFormController implements Initializable{
         apptLocationCol.setCellValueFactory(new PropertyValueFactory<>("Location"));
         apptContactCol.setCellValueFactory(new PropertyValueFactory<>("ContactID"));
         apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
-        apptStartCol.setCellValueFactory(new PropertyValueFactory<>("StartDT"));
-        apptEndCol.setCellValueFactory(new PropertyValueFactory<>("EndDT"));
+        apptStartCol.setCellValueFactory(new PropertyValueFactory<>("startLocalZone"));
+        apptEndCol.setCellValueFactory(new PropertyValueFactory<>("endLocalZone"));
         apptCIDCol.setCellValueFactory(new PropertyValueFactory<>("Customer_ID"));
         apptUIDCol.setCellValueFactory(new PropertyValueFactory<>("User_ID"));
 
@@ -428,6 +447,8 @@ public class mainFormController implements Initializable{
         yearSelect.setDisable(true);
 
         dateDisplay.setText("All appointments");
+
+        Main.fifteenMinuteCheck();
     }
 
 }

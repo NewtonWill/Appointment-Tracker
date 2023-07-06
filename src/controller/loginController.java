@@ -13,11 +13,15 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Session;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class loginController implements Initializable {
 
@@ -116,6 +120,7 @@ public class loginController implements Initializable {
         String password = passwordTxt.getText();
         Session.setLocalUserId(helper.usersQuery.checkMatch(username, password));
         if (Session.getLocalUserId() != null){
+            trackLogin(true);
             System.out.println("Login successful");
             stage = (Stage)((TextField)event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/mainForm.fxml")));
@@ -123,6 +128,7 @@ public class loginController implements Initializable {
             stage.show();
         }
         else {
+            trackLogin(false);
             Alert loginError = new Alert(Alert.AlertType.WARNING);
             if(String.valueOf(Session.getLocalLanguage()).equals("fr")){
                 loginError.setTitle("Erreur de connexion");
@@ -135,6 +141,15 @@ public class loginController implements Initializable {
             loginError.showAndWait();
             System.out.println("Login unsuccessful");
         }
+    }
+
+    public static void trackLogin(boolean successful) throws IOException{
+        String filename = "src/login_activity.txt", item;
+        FileWriter fWriter = new FileWriter(filename, true);
+        PrintWriter outputFile = new PrintWriter(fWriter);
+        StringBuilder sb = new StringBuilder("Login attempt at " + LocalDateTime.now(Session.getLocalZoneId()) + " (user system time) || Login success: " + successful);
+        outputFile.println(sb);
+        outputFile.close();
     }
 
 }

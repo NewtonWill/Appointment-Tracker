@@ -129,7 +129,7 @@ public class lengthReportController implements Initializable {
             return;
         }
 
-        double average = minutesTotal / appointmentsTotal;
+        double average = (double) minutesTotal / appointmentsTotal;
 
         numberLabel.setText(String.valueOf(appointmentsTotal));
         averageLabel.setText(average + " minutes");

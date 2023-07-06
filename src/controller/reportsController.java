@@ -40,8 +40,11 @@ public class reportsController {
     }
 
     @FXML
-    void onActionReport3(ActionEvent event) {
-
+    void onActionReport3(ActionEvent event) throws IOException {
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/lengthReport.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
 }

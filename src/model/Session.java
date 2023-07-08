@@ -450,7 +450,7 @@ public class Session {
     }
 
     public void setLocalLanguage() {
-        localLanguage = localLanguage;
+        Session.localLanguage = localLanguage;
     }
 
     public static ZoneId getLocalZoneId() {

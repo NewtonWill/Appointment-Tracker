@@ -78,6 +78,10 @@ public class modifyAppointmentController implements Initializable {
     @FXML
     private Label zoneLabel2;
 
+
+    /**
+     * Method returns user to main form with no saved changes
+     */
     @FXML
     void onActionCancelBtn(ActionEvent event) throws IOException {
 
@@ -88,6 +92,10 @@ public class modifyAppointmentController implements Initializable {
 
     }
 
+
+    /**
+     * Method checks if data is valid, updates the appointment data, and returns user to the main form
+     */
     @FXML
     void onActionSaveBtn(ActionEvent event) throws SQLException, IOException {
 
@@ -150,6 +158,10 @@ public class modifyAppointmentController implements Initializable {
 
     }
 
+
+    /**
+     * Method sets items for combo boxes and displays current user time zone
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -170,6 +182,11 @@ public class modifyAppointmentController implements Initializable {
         }
     }
 
+
+    /**
+     * Method sets user input areas to values that match the appointment being modified
+     * @param appointment the appointment that is being modified
+     */
     public void sendAppointment(Appointment appointment){
 
         contactCombo.setValue(Session.lookupContact(appointment.getContactID()));
@@ -197,7 +214,5 @@ public class modifyAppointmentController implements Initializable {
 
         endHour.setValue(endZDT.getHour());
         endMinute.setValue(endZDT.getMinute());
-
     }
-
 }

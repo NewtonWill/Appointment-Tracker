@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import main.Main;
+import main.buttonInterface;
 import model.Appointment;
 import model.Customer;
 import model.Session;
@@ -146,6 +147,9 @@ public class mainFormController implements Initializable{
 
     }
 
+    /**
+     * Method to go to reports selection form
+     */
     @FXML
     void onActionReportsButton(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -154,6 +158,9 @@ public class mainFormController implements Initializable{
         stage.show();
     }
 
+    /**
+     * Method to go to create new customer form
+     */
     @FXML
     void onActionAddCust(ActionEvent event) throws IOException{
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -162,6 +169,9 @@ public class mainFormController implements Initializable{
         stage.show();
     }
 
+    /**
+     * Method to select appointment and delete
+     */
     @FXML
     void onActionDeleteAppointment(ActionEvent event) throws SQLException {
         Appointment selectedAppt = appointmentTableView.getSelectionModel().getSelectedItem();
@@ -192,6 +202,9 @@ public class mainFormController implements Initializable{
         }
     }
 
+    /**
+     * Method to select customer and delete
+     */
     @FXML
     void onActionDeleteCust(ActionEvent event) throws SQLException {
         Customer selectedCust = customerTableView.getSelectionModel().getSelectedItem();
@@ -232,12 +245,18 @@ public class mainFormController implements Initializable{
         }
     }
 
+    /**
+     * Method to exit program
+     */
     @FXML
     void onActionExitProgram(ActionEvent event) {
         System.exit(0);
     }
 
 
+    /**
+     * Method to select appointment and edit
+     */
     @FXML
     void onActionModifyAppointment(ActionEvent event) throws IOException {
         if (appointmentTableView.getSelectionModel().getSelectedItem() == null){
@@ -258,6 +277,9 @@ public class mainFormController implements Initializable{
         stage.show();
     }
 
+    /**
+     * Method to select customer and edit
+     */
     @FXML
     void onActionModifyCust(ActionEvent event) throws IOException {
         if (customerTableView.getSelectionModel().getSelectedItem() == null){
@@ -279,6 +301,9 @@ public class mainFormController implements Initializable{
 
     }
 
+    /**
+     * Method to reset and view all appointments
+     */
     @FXML
     void onActionAllRadio(ActionEvent event){
         monthRadio.setSelected(false);
@@ -286,14 +311,14 @@ public class mainFormController implements Initializable{
 
         appointmentTableView.setItems(Session.getAllAppointments());
 
-        leftBtn.setDisable(true);
-        rightBtn.setDisable(true);
-        monthSelect.setDisable(true);
-        yearSelect.setDisable(true);
+        implement.setAllButtonsDisable(true); //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled
 
         dateDisplay.setText("All appointments");
     }
 
+    /**
+     * Method to filter appointment table by month
+     */
     @FXML
     void onActionMonthRadio(ActionEvent event) {
         allRadio.setSelected(false);
@@ -301,14 +326,14 @@ public class mainFormController implements Initializable{
 
         appointmentTableView.setItems(Session.appointmentGetMonth(monthSelect.getSelectionModel().getSelectedItem(), yearSelect.getSelectionModel().getSelectedItem()));
 
-        leftBtn.setDisable(false);
-        rightBtn.setDisable(false);
-        monthSelect.setDisable(false);
-        yearSelect.setDisable(false);
+        implement.setAllButtonsDisable(false); //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled
 
         dateDisplay.setText(monthSelect.getSelectionModel().getSelectedItem().toString());
     }
 
+    /**
+     * Method to filter appointment table by week
+     */
     @FXML
     void onActionWeekRadio(ActionEvent event) {
         allRadio.setSelected(false);
@@ -319,14 +344,14 @@ public class mainFormController implements Initializable{
 
         dateDisplay.setText("Week starting with Sunday " + Session.getCurrentSunday());
 
-        leftBtn.setDisable(false);
-        rightBtn.setDisable(false);
-        monthSelect.setDisable(false);
-        yearSelect.setDisable(false);
+        implement.setAllButtonsDisable(false); //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled
     }
 
 
 
+    /**
+     * Method to filter appointment table by month
+     */
     @FXML
     void onActionMonthSelect(ActionEvent event) {
         if(monthRadio.isSelected()){
@@ -339,6 +364,9 @@ public class mainFormController implements Initializable{
         }
     }
 
+    /**
+     * Method to filter appointment table by year
+     */
     @FXML
     void onActionYearSelect(ActionEvent event) {
         if(monthRadio.isSelected()){
@@ -351,7 +379,9 @@ public class mainFormController implements Initializable{
         }
     }
 
-
+    /**
+     * Method to select week or month
+     */
     @FXML
     void onActionRightBtn(ActionEvent event) {
 
@@ -374,6 +404,9 @@ public class mainFormController implements Initializable{
 
     }
 
+    /**
+     * Method to select week or month
+     */
     @FXML
     void onActionLeftBtn(ActionEvent event) {
 
@@ -383,13 +416,6 @@ public class mainFormController implements Initializable{
                 System.out.println("Beginning of month reached: Scenario 1");
                 return;
             }
-
-            /*LocalDate saturday = Session.getCurrentSunday().plusDays(6);
-            if(!saturday.getMonth().equals(monthSelect.getSelectionModel().getSelectedItem())){
-                //saturday is member of previous month
-                System.out.println("Beginning of month reached: Scenario 2");
-                return;
-            }*/
 
             Session.setCurrentSunday(Session.getCurrentSunday().minusWeeks(1));
             appointmentTableView.setItems(Session.appointmentGetWeek(Session.getCurrentSunday()));
@@ -404,6 +430,9 @@ public class mainFormController implements Initializable{
 
     }
 
+    /**
+     * Method to initialize view. Sets table items and default toggles
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
 
@@ -441,14 +470,21 @@ public class mainFormController implements Initializable{
 
         Session.setCurrentSunday(Main.getFirstWeekDate(monthSelect.getSelectionModel().getSelectedItem(), yearSelect.getValue()));
 
-        leftBtn.setDisable(true);
-        rightBtn.setDisable(true);
-        monthSelect.setDisable(true);
-        yearSelect.setDisable(true);
+        implement.setAllButtonsDisable(true); //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled
 
         dateDisplay.setText("All appointments");
 
         Main.fifteenMinuteCheck();
     }
 
+    /**
+     * Lambda expression which cuts down redundant lines of code setting all buttons enabled or disabled
+     */
+    buttonInterface implement = b -> {
+        leftBtn.setDisable(b);
+        rightBtn.setDisable(b);
+        monthSelect.setDisable(b);
+        yearSelect.setDisable(b);
+        //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled
+    };
 }

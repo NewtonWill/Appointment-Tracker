@@ -21,7 +21,6 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class loginController implements Initializable {
 
@@ -52,6 +51,9 @@ public class loginController implements Initializable {
     @FXML
     private Label usernameUIElement;
 
+    /**
+     * Method detects user language and displays proper ui language
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timeZoneLabel.setText(String.valueOf(Session.getLocalZoneId()));
@@ -64,7 +66,6 @@ public class loginController implements Initializable {
                 loginUIElement.setText("connectez-vous");
                 okBtn.setText("d'accord");
                 cancelBtn.setText("Annuler");
-                //fixme fix the ui spacing if there is time
             }
             else {
                 System.out.println("Language not supported, english set by default");
@@ -74,9 +75,6 @@ public class loginController implements Initializable {
                 languageAlert.show();
             }
         }
-
-        //String sysdef = Locale.getDefault().toString();
-        //System.out.println(sysdef);
     }
 
     /**
@@ -109,11 +107,17 @@ public class loginController implements Initializable {
         }
     }
 
+    /**
+     * Method exits program
+     */
     @FXML
     void onActionCancelBtn(ActionEvent event) {
         System.exit(0);
     }
 
+    /**
+     * Method checks if username and password matches and launches main form if successful
+     */
     @FXML
     void onActionTextEnter(ActionEvent event) throws SQLException, IOException {
         String username = usernameTxt.getText();
@@ -143,6 +147,9 @@ public class loginController implements Initializable {
         }
     }
 
+    /**
+     * Method records current date, time, and the success of a login attempt
+     */
     public static void trackLogin(boolean successful) throws IOException{
         String filename = "src/login_activity.txt", item;
         FileWriter fWriter = new FileWriter(filename, true);

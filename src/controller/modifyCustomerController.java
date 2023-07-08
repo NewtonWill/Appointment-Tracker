@@ -54,6 +54,10 @@ public class modifyCustomerController implements Initializable {
     @FXML
     private Button saveBtn;
 
+
+    /**
+     * Method returns user to main form without saving changes
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
 
@@ -64,6 +68,10 @@ public class modifyCustomerController implements Initializable {
 
     }
 
+
+    /**
+     * Method checks if input data is valid, saves, and returns to the main form
+     */
     @FXML
     void onActionSaveCustomer(ActionEvent event) throws SQLException, IOException {
         if(!Main.customerDataCheck(customerNameTxt.getText(), addressTxt.getText(), divisionCombo.getSelectionModel().getSelectedItem(),
@@ -71,8 +79,6 @@ public class modifyCustomerController implements Initializable {
             System.out.println("value check fail");
             return;
         }
-
-
 
         int currentIndex = Session.getAllCustomers().indexOf(Session.lookupCustomer(Integer.parseInt(customerIdTxt.getText())));
 
@@ -95,6 +101,9 @@ public class modifyCustomerController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Method sets division combo box to only items corresponding to chosen country
+     */
     @FXML
     void onActionCountry(ActionEvent event) {
 
@@ -102,6 +111,9 @@ public class modifyCustomerController implements Initializable {
 
     }
 
+    /**
+     * Method populates country combo box
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -110,6 +122,10 @@ public class modifyCustomerController implements Initializable {
 
     }
 
+    /**
+     * Method sets input values to match the customer being modified
+     * @param customer the customer being modified
+     */
     public void sendCustomer(Customer customer){
         countryCombo.setValue(Session.lookupCountry(Session.lookupDivision(customer.getDivisionId()).getCountryId()));
         divisionCombo.setValue(Session.lookupDivision(customer.getDivisionId()));
@@ -121,7 +137,5 @@ public class modifyCustomerController implements Initializable {
         postalCodeTxt.setText(customer.getPostalCode());
 
         divisionCombo.setItems(Session.filterDivisions(countryCombo.getSelectionModel().getSelectedItem().getCountryId()));
-
     }
-
 }

@@ -59,6 +59,9 @@ public class lengthReportController implements Initializable {
     Stage stage;
     Parent scene;
 
+    /**
+     * Method to go return to reports select form
+     */
     @FXML
     void onActionBackButton(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -68,11 +71,17 @@ public class lengthReportController implements Initializable {
 
     }
 
+    /**
+     * Method to select contact information
+     */
     @FXML
     void onActionContactCombo(ActionEvent event){
         setStats(contactCombo.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Method to set default view
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -82,18 +91,28 @@ public class lengthReportController implements Initializable {
         setStats(contactCombo.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Method to select contact
+     */
     @FXML
     void onActionLeft(ActionEvent event) {
         contactCombo.getSelectionModel().selectPrevious();
         setStats(contactCombo.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Method to select contact
+     */
     @FXML
     void onActionRight(ActionEvent event) {
         contactCombo.getSelectionModel().selectNext();
         setStats(contactCombo.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Method to calculate and display statistical information
+     * @param contact the contact that will be analyzed for data
+     */
     void setStats(Contact contact){
         int appointmentsTotal = 0;
 

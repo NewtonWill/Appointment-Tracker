@@ -21,6 +21,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.TimeZone;
 
+/**
+ * The main class of the program
+ * @author William Newton
+ */
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
@@ -30,6 +34,10 @@ public class Main extends Application {
         stage.show();
     }
 
+    /**
+     * The main executable for the program. Houses test data and launches args
+     * @param args the args to launch
+     */
     public static void main(String[] args) throws SQLException {
 
         new Session(Locale.getDefault().getLanguage(), ZoneId.of(TimeZone.getDefault().getID()), null);
@@ -81,7 +89,12 @@ public class Main extends Application {
 
         System.exit(0);
     }
-
+    /**
+     * Method designed to identify the first week of the month
+     * @param month the specified month
+     * @param year the specified year
+     * @return the first day of the week
+     */
     public static LocalDate getFirstWeekDate(Month month, int year){
         LocalDate dayOne = LocalDate.of(year, month, 1);
         while(dayOne.getDayOfWeek() != DayOfWeek.SUNDAY){
@@ -90,7 +103,11 @@ public class Main extends Application {
         return dayOne;
     }
 
+    /**
+     * Method to alert user where or not there is an upcoming appointment within the next 15 minutes
+     */
     public static void fifteenMinuteCheck(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
         if(!Session.isFirstTimeMainForm()){
             return;
@@ -100,7 +117,6 @@ public class Main extends Application {
 
         for(Appointment appointmentX : Session.getAllAppointments()){
             if (appointmentX.getStartDT().isAfter(LocalDateTime.now()) && appointmentX.getStartDT().isBefore(nowPlusFifteen)){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Upcoming Appointment");
                 alert.setContentText("Appointment ID#" + appointmentX.getAppointmentId() + ": " + appointmentX.getTitle() + " starts within the next 15 minutes");
                 Optional<ButtonType> result = alert.showAndWait();
@@ -108,19 +124,31 @@ public class Main extends Application {
                 return;
             }
         }
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("No Upcoming Appointment");
         alert.setContentText("There are no appointments starting within the next 15 minutes");
         Optional<ButtonType> result = alert.showAndWait();
         Session.setFirstTimeMainForm(false);
     }
 
+    /**
+     * Method checks that all user input text fields are valid.
+     * Lambda Expression checks for nulls and blanks at the same time. Lambda expression improves code by increasing readability
+     * through cutting down amount of visible && expressions via consolidation within the expression.
+     * @return boolean signifying validity of data
+     */
     public static boolean customerDataCheck(String name, String address, Division division, String phone, String postalCode){
-        return name != null && !name.isBlank() && address != null && !address.isBlank() && phone != null && !phone.isBlank() &&
-                postalCode != null && !postalCode.isBlank() && division != null;
+        dataCheckInterface checkItOut = s -> s != null && !s.isBlank();
+        return checkItOut.nullOrBlank(name) && checkItOut.nullOrBlank(address) && checkItOut.nullOrBlank(phone) &&
+                checkItOut.nullOrBlank(postalCode) && division != null;
     }
 
+    /**
+     * Method checks that data is valid while also converting into ZonedDateTime
+     * @param date the date
+     * @param hour the hour
+     * @param minute the minute
+     * @return the validated ZonedDateTime using local user zoneId
+     */
     public static ZonedDateTime appointmentValidTimeCheck(LocalDate date, Integer hour, Integer minute){
         if (date == null){
             System.out.println("Date invalid");
@@ -134,6 +162,14 @@ public class Main extends Application {
         return ZonedDateTime.of(date, time, Session.getLocalZoneId());
     }
 
+    /**
+     * Method checks that appointment times are chronologically valid with no overlap for customer.
+     * @param start the appointment start
+     * @param end the appointment end
+     * @param customerId the id of the customer involved
+     * @param appointmentId the id of the appointment being set
+     * @return boolean indicating the validity of the appointment
+     */
     public static boolean appointmentFullCheck(ZonedDateTime start, ZonedDateTime end, Integer customerId, Integer appointmentId){
         if (end.isBefore(start) || end.equals(start)){
             System.out.println("Error: Appointment cannot end before or at start");
@@ -197,65 +233,5 @@ public class Main extends Application {
             }
         }
         return true;
-    }
-
-    public static void lambdas(){
-        // value returning lambda expression
-        //GeneralInterface square = n -> n * n;
-        //System.out.println(square.calculateSquare(5));
-
-        // void lambda expression with one parameter
-        //GeneralInterface message = s -> System.out.println("hello again " + s);
-        //message.displayMessage("Malcolm!");
-
-        // void Lambda Expression with one parameter
-
-        // Multiple parameter Lambda Expression
-        //GeneralInterface sum = (n1, n2) -> n1 + n2;
-        //System.out.println(sum.calculateSum(5, 0));
-
-        // no parameter Lambda Expression
-        //GeneralInterface message = () -> System.out.println("hello World! ");
-        //message.displayMessage();
-
-        // multiple statement Lambda Expression
-        /*GeneralInterface square = n -> {
-            int result = n * n;
-            return result;
-        };
-        System.out.println(square.calculateSquare(6));*/
-
-        // using local variable in lambda expression
-         /*final int num = 50;
-
-        GeneralInterface square = n -> n * n;
-        System.out.println(square.calculateSquare(num));*/
-    }
-
-    public static void dateAndTime(){
-        //ZoneId.getAvailableZoneIds().stream().forEach(System.out::println);
-
-        //ZoneId.getAvailableZoneIds().stream().filter(c -> c.contains("Europe")).forEach(System.out::println);
-
-        LocalDate parisDate = LocalDate.of(2019, 10, 26);
-        LocalTime parisTime = LocalTime.of(1, 0);
-        ZoneId parisZoneId = ZoneId.of("Europe/Paris");
-        ZonedDateTime parisZDT = ZonedDateTime.of(parisDate, parisTime, parisZoneId);
-        ZoneId localZoneId = ZoneId.of(TimeZone.getDefault().getID());
-
-        Instant parisToGMTInstant = parisZDT.toInstant(); //convert to utc/gmt
-        ZonedDateTime parisToLocalZDT = parisZDT.withZoneSameInstant(localZoneId); //convert paris to local time
-        ZonedDateTime gmtToLocalZDT = parisToGMTInstant.atZone(localZoneId); //convert utc to local
-
-        //System.out.println("Local: " + ZonedDateTime.now());
-        System.out.println("Paris: " + parisZDT);
-        System.out.println("Paris->GMT: " + parisToGMTInstant);
-        System.out.println("GMT->Local: " + gmtToLocalZDT);
-        System.out.println("GMT->LocalDate: " + gmtToLocalZDT.toLocalDate());
-        System.out.println("GMT->LocalDate: " + gmtToLocalZDT.toLocalTime());
-        String date = String.valueOf(gmtToLocalZDT.toLocalDate());
-        String time = String.valueOf(gmtToLocalZDT.toLocalTime());
-        String dateTime = date + " " + time;
-        System.out.println(dateTime);
     }
 }

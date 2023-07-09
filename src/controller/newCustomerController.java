@@ -22,6 +22,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * Controller of the new customer view
+ */
 public class newCustomerController implements Initializable {
 
     Stage stage;
@@ -54,6 +57,9 @@ public class newCustomerController implements Initializable {
     @FXML
     private Button saveBtn;
 
+    /**
+     * Method returns user to the main form
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -62,12 +68,18 @@ public class newCustomerController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Method sets division combo box to only items corresponding to chosen country
+     */
     @FXML
     void onActionCountry(ActionEvent event) {
         divisionCombo.setItems(Session.filterDivisions(countryCombo.getSelectionModel().getSelectedItem().getCountryId()));
         divisionCombo.setDisable(false);
     }
 
+    /**
+     * Method checks if input data is valid, saves, and returns to the main form
+     */
     @FXML
     void onActionSaveCustomer(ActionEvent event) throws SQLException, IOException {
 
@@ -89,7 +101,9 @@ public class newCustomerController implements Initializable {
         stage.show();
 
     }
-
+    /**
+     * Method populates country combo box, disables the division combo box, and generates a customer id
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         countryCombo.setItems(Session.getAllCountries());

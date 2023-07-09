@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Model class for Country objects
+ */
 public class Country {
 
     private Integer countryId;

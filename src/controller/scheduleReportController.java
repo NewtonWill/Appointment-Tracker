@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller of the schedule report view
+ */
 public class scheduleReportController implements Initializable {
 
     @FXML
@@ -52,6 +55,9 @@ public class scheduleReportController implements Initializable {
     Stage stage;
     Parent scene;
 
+    /**
+     * Method returns user to reports choice form
+     */
     @FXML
     void onActionBackButton(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -61,11 +67,17 @@ public class scheduleReportController implements Initializable {
 
     }
 
+    /**
+     * Method sets the appointment list on the table according to selected contact
+     */
     @FXML
     void onActionContactCombo(ActionEvent event){
         appointmentTableView.setItems(Session.appointmentsForContact(contactCombo.getSelectionModel().getSelectedItem()));
     }
 
+    /**
+     * Method populates contact combo box and sets appointment list accordingly
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -84,16 +96,22 @@ public class scheduleReportController implements Initializable {
 
     }
 
+
+    /**
+     * Method changes the selected contact and sets appointment list according to the contact
+     */
     @FXML
     void onActionLeft(ActionEvent event) {
         contactCombo.getSelectionModel().selectPrevious();
         appointmentTableView.setItems(Session.appointmentsForContact(contactCombo.getSelectionModel().getSelectedItem()));
     }
 
+    /**
+     * Method changes the selected contact and sets appointment list according to the contact
+     */
     @FXML
     void onActionRight(ActionEvent event) {
         contactCombo.getSelectionModel().selectNext();
         appointmentTableView.setItems(Session.appointmentsForContact(contactCombo.getSelectionModel().getSelectedItem()));
     }
-
 }

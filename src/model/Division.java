@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Model class for Division objects
+ */
 public class Division {
 
     private Integer divisionId;

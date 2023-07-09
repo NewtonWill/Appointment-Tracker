@@ -22,6 +22,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * Controller of the modify Customer view
+ */
 public class modifyCustomerController implements Initializable {
 
     Stage stage;

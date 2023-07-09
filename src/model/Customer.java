@@ -1,5 +1,9 @@
 package model;
 
+
+/**
+ * Model class for Customer objects
+ */
 public class Customer {
 
     private Integer customerId;

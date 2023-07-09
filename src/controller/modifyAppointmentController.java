@@ -22,6 +22,9 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
+/**
+ * Controller of the modify Appointment view
+ */
 public class modifyAppointmentController implements Initializable {
 
     Stage stage;

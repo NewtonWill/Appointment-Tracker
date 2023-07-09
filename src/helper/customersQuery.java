@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.*;
 
+/**
+ * Database helper class for customer objects
+ */
 public abstract class customersQuery {
     /**
      * Loads customer records from database into java objects

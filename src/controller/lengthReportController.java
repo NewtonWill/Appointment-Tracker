@@ -18,6 +18,9 @@ import java.util.ResourceBundle;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
 
+/**
+ * Controller of the length report view
+ */
 public class lengthReportController implements Initializable {
 
     @FXML

@@ -52,12 +52,12 @@ public class Main extends Application {
         //opens database connection
         JDBC.openConnection();
 
-        try {
+        /*try {
             customersQuery.delete(666);
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
         //loads Database to memory
         System.out.println("Countries loaded: " + countriesQuery.loadToMemory());
@@ -69,7 +69,7 @@ public class Main extends Application {
         //Launches tests
         //TestScripts.loginTest();
 
-        TestScripts.customerAddTest();
+        //TestScripts.customerAddTest();
 
         //set range of appointment filtering years
         ObservableList<Integer> yearsSet = FXCollections.observableArrayList();
@@ -83,7 +83,7 @@ public class Main extends Application {
         launch(args);
 
 
-        customersQuery.delete(666);
+        //customersQuery.delete(666);
         //program close
         JDBC.closeConnection();
 
@@ -133,7 +133,12 @@ public class Main extends Application {
     /**
      * Method checks that all user input text fields are valid.
      * Lambda Expression checks for nulls and blanks at the same time. Lambda expression improves code by increasing readability
-     * through cutting down amount of visible && expressions via consolidation within the expression.
+     * through cutting down amount of visible "and" expressions via consolidation within the expression.
+     * @param name the name to check
+     * @param address the address to check
+     * @param division the division to check
+     * @param phone the phone to check
+     * @param postalCode the postal code to check
      * @return boolean signifying validity of data
      */
     public static boolean customerDataCheck(String name, String address, Division division, String phone, String postalCode){

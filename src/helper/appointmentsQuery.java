@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * Database helper class for appointment objects
+ */
 public abstract class appointmentsQuery {
 
     /**

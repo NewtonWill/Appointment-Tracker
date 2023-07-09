@@ -18,6 +18,9 @@ import java.time.Month;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Controller of the month and type report view
+ */
 public class monthTypeReportController implements Initializable {
 
     @FXML
@@ -68,6 +71,9 @@ public class monthTypeReportController implements Initializable {
     Stage stage;
     Parent scene;
 
+    /**
+     * Method returns user to report choice view
+     */
     @FXML
     void onActionBackButton(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -76,6 +82,9 @@ public class monthTypeReportController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Method calculates and displays the total amount of appointments by type and by month
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -164,5 +173,4 @@ public class monthTypeReportController implements Initializable {
         nov.setText(String.valueOf(NOV));
         dec.setText(String.valueOf(DEC));
     }
-
 }

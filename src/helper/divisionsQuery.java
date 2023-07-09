@@ -7,6 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Database helper class for division objects
+ */
 public abstract class divisionsQuery {
 
     /**

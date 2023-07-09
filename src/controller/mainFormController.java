@@ -27,6 +27,9 @@ import java.time.Year;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller of the main form view
+ */
 public class mainFormController implements Initializable{
 
     Stage stage;
@@ -432,6 +435,7 @@ public class mainFormController implements Initializable{
 
     /**
      * Method to initialize view. Sets table items and default toggles
+     * Lambda expression cuts down redundant lines of code by setting all buttons enabled or disabled at once
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){

@@ -12,6 +12,10 @@ import java.time.Year;
 import java.time.ZoneId;
 import java.util.Objects;
 
+
+/**
+ * Class designed to house all objects in memory and current user system information
+ */
 public class Session {
 
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();

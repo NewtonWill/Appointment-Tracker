@@ -21,6 +21,9 @@ import java.sql.SQLException;
 import java.time.*;
 import java.util.ResourceBundle;
 
+/**
+ * Controller of the new appointment view
+ */
 public class newAppointmentController implements Initializable {
 
     Stage stage;
@@ -77,6 +80,9 @@ public class newAppointmentController implements Initializable {
     @FXML
     private Label zoneLabel2;
 
+    /**
+     * Method returns user to main form
+     */
     @FXML
     void onActionCancelBtn(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -85,6 +91,10 @@ public class newAppointmentController implements Initializable {
         stage.show();
     }
 
+
+    /**
+     * Method checks if input data is valid, saves, and returns user to the main form
+     */
     @FXML
     void onActionSaveBtn(ActionEvent event) throws SQLException, IOException {
 
@@ -146,6 +156,9 @@ public class newAppointmentController implements Initializable {
 
     }
 
+    /**
+     * Method populates combo boxes, sets default values, and displays current user time zone
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -170,7 +183,5 @@ public class newAppointmentController implements Initializable {
         startMinute.getSelectionModel().selectFirst();
         endHour.getSelectionModel().selectFirst();
         endMinute.getSelectionModel().selectFirst();
-
     }
-
 }

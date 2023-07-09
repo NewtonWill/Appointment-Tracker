@@ -6,6 +6,10 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
+
+/**
+ * Model class for appointment objects
+ */
 public class Appointment {
 
     private Integer appointmentId;

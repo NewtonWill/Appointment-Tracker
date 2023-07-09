@@ -5,9 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
+/**
+ * Database helper class for user objects
+ */
 public abstract class usersQuery {
 
-    public static void select() throws SQLException {
+    /*public static void select() throws SQLException {
         String sql = "SELECT * FROM USERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -17,7 +20,7 @@ public abstract class usersQuery {
             System.out.print(userId + " | ");
             System.out.print(userName + "\n");
         }
-    }
+    }*/ //method unused
 
     /**
      * Method checks if log in is valid and returns validated user ID

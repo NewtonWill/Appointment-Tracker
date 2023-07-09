@@ -22,6 +22,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Controller of the login view
+ */
 public class loginController implements Initializable {
 
     Stage stage;

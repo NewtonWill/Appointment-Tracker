@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Model class for Contact objects
+ */
 public class Contact {
 
     private Integer contactId;

@@ -138,11 +138,11 @@ public class newAppointmentController implements Initializable {
 
         System.out.println("Appointment okay!");
 
-        Instant startInstant = startZDT.toInstant();
+        /*Instant startInstant = startZDT.toInstant();
         Instant endInstant = endZDT.toInstant();
 
         startZDT = startInstant.atZone(ZoneId.of("UTC"));
-        endZDT = endInstant.atZone(ZoneId.of("UTC"));
+        endZDT = endInstant.atZone(ZoneId.of("UTC"));*/
 
         /*startZDT = startZDT.withZoneSameInstant(ZoneId.of("UTC"));
         endZDT = endZDT.withZoneSameInstant(ZoneId.of("UTC"));*/

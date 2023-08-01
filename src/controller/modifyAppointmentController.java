@@ -143,11 +143,13 @@ public class modifyAppointmentController implements Initializable {
 
         System.out.println("Appointment okay!");
 
-        Instant startInstant = startZDT.toInstant();
+
+        //vestigial, no longer needed with zone conversion fix
+        /*Instant startInstant = startZDT.toInstant();
         Instant endInstant = endZDT.toInstant();
 
         startZDT = startInstant.atZone(ZoneId.of("UTC"));
-        endZDT = endInstant.atZone(ZoneId.of("UTC"));
+        endZDT = endInstant.atZone(ZoneId.of("UTC"));*/
 
         /*startZDT = startZDT.withZoneSameInstant(ZoneId.of("UTC"));
         endZDT = endZDT.withZoneSameInstant(ZoneId.of("UTC"));*/
@@ -212,9 +214,9 @@ public class modifyAppointmentController implements Initializable {
         ZonedDateTime startZDT = ZonedDateTime.of(appointment.getStartDT(), ZoneId.of("UTC"));
         ZonedDateTime endZDT = ZonedDateTime.of(appointment.getEndDT(), ZoneId.of("UTC"));
 
-        //convert zonedDT from utc to local timezone
+        /*//convert zonedDT from utc to local timezone
         startZDT = startZDT.withZoneSameInstant(Session.getLocalZoneId());
-        endZDT = endZDT.withZoneSameInstant(Session.getLocalZoneId());
+        endZDT = endZDT.withZoneSameInstant(Session.getLocalZoneId());*/
 
         startDatePicker.setValue(startZDT.toLocalDate());
         endDatePicker.setValue(endZDT.toLocalDate());

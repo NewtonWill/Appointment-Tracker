@@ -119,11 +119,17 @@ public class Appointment {
     }
 
     public String getEndLocalZone(){
-        ZonedDateTime endZDT = ZonedDateTime.of(getEndDT(), ZoneId.of("UTC"));
-        return endZDT.withZoneSameInstant(Session.getLocalZoneId()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
+        //vestigial code, irrelevant due to time zone conversion fix
+        /*ZonedDateTime endZDT = ZonedDateTime.of(getEndDT(), ZoneId.of("UTC"));
+        return endZDT.withZoneSameInstant(Session.getLocalZoneId()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));*/
+
+        return getEndDT().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
     }
     public String getStartLocalZone(){
-        ZonedDateTime startZDT = ZonedDateTime.of(getStartDT(), ZoneId.of("UTC"));
-        return startZDT.withZoneSameInstant(Session.getLocalZoneId()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
+        //vestigial code, irrelevant due to time zone conversion fix
+        /*ZonedDateTime startZDT = ZonedDateTime.of(getStartDT(), ZoneId.of("UTC"));
+        return startZDT.withZoneSameInstant(Session.getLocalZoneId()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));*/
+
+        return getStartDT().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
     }
 }

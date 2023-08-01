@@ -434,7 +434,7 @@ public class mainFormController implements Initializable{
     }
 
     /**
-     * Method to initialize view. Sets table items and default toggles
+     * Method to initialize view. Sets table items and default toggles.
      * Lambda expression cuts down redundant lines of code by setting all buttons enabled or disabled at once
      */
     @Override
@@ -489,6 +489,5 @@ public class mainFormController implements Initializable{
         rightBtn.setDisable(b);
         monthSelect.setDisable(b);
         yearSelect.setDisable(b);
-        //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled
     };
 }

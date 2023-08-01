@@ -27,34 +27,19 @@ public class Session {
     private static ObservableList <Division> filteredDivisions = FXCollections.observableArrayList();
     private static ObservableList <Appointment> filteredAppointments = FXCollections.observableArrayList();
 
-    public static ObservableList<Month> getAllMonths() {
-        return allMonths;
-    }
-
-    public static void setAllMonths(ObservableList<Month> allMonths) {
-        Session.allMonths = allMonths;
-    }
-
-    public static ObservableList<Integer> getAllYears() {
-        return allYears;
-    }
-
-    public static void setAllYears(ObservableList<Integer> allYears) {
-        Session.allYears = allYears;
-    }
+    private static LocalDate currentSunday;
 
     private static ObservableList <Month> allMonths = FXCollections.observableArrayList(Month.values());
     private static ObservableList <Integer> allYears = FXCollections.observableArrayList();
 
-    public static LocalDate getCurrentSunday() {
-        return currentSunday;
-    }
+    private static Integer nextCustomerId = 1;
+    private static Integer nextAppointmentId = 1;
 
-    public static void setCurrentSunday(LocalDate currentSunday) {
-        Session.currentSunday = currentSunday;
-    }
+    private static String localLanguage;
+    private static ZoneId localZoneId;
+    private static Integer localUserId;
 
-    private static LocalDate currentSunday;
+    private static boolean firstTimeMainForm = true;
 
     public static boolean isFirstTimeMainForm() {
         return firstTimeMainForm;
@@ -64,22 +49,23 @@ public class Session {
         Session.firstTimeMainForm = firstTimeMainForm;
     }
 
-    private static boolean firstTimeMainForm = true;
-
-
-    private static Integer nextCustomerId = 1;
-    private static Integer nextAppointmentId = 1;
-
-    private static String localLanguage;
-    private static ZoneId localZoneId;
-    private static Integer localUserId;
-
+    /**
+     * Instance method for the session class
+     * @param localLanguage the system's local language
+     * @param localUserId the current user's id
+     * @param localZoneId the system's local zone id
+     */
     public Session(String localLanguage, ZoneId localZoneId, Integer localUserId){
         Session.localLanguage = localLanguage;
         Session.localZoneId = localZoneId;
         Session.localUserId = localUserId;
     }
 
+    /**
+     * Method generates a list of appointments that correspond to a specified contact
+     * @param contact the contact of which to filter appointments for
+     * @return the list of appointments
+     */
     public static ObservableList<Appointment> appointmentsForContact(Contact contact){
         if(!(getFilteredAppointments().isEmpty()))
             getFilteredAppointments().clear();
@@ -487,6 +473,26 @@ public class Session {
 
     public static void setFilteredAppointments(ObservableList<Appointment> filteredAppointments) {
         Session.filteredAppointments = filteredAppointments;
+    }
+
+    public static ObservableList<Month> getAllMonths() {
+        return allMonths;
+    }
+
+    public static ObservableList<Integer> getAllYears() {
+        return allYears;
+    }
+
+    public static void setAllYears(ObservableList<Integer> allYears) {
+        Session.allYears = allYears;
+    }
+
+    public static LocalDate getCurrentSunday() {
+        return currentSunday;
+    }
+
+    public static void setCurrentSunday(LocalDate currentSunday) {
+        Session.currentSunday = currentSunday;
     }
 
 }

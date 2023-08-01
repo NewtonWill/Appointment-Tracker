@@ -205,32 +205,39 @@ public class Main extends Application {
                 //above checks if the rotating appointmentX is for the same customer, and if so will make sure it is not the same appointment
 
                 ZonedDateTime startX = appointmentX.getStartDT().atZone(ZoneId.of("UTC")).withZoneSameInstant(Session.getLocalZoneId());
-                ZonedDateTime endX = appointmentX.getStartDT().atZone(ZoneId.of("UTC")).withZoneSameInstant(Session.getLocalZoneId());
+                ZonedDateTime endX = appointmentX.getEndDT().atZone(ZoneId.of("UTC")).withZoneSameInstant(Session.getLocalZoneId());
+
+                System.out.println();
+                System.out.println("New Appointment Start: " + start);
+                System.out.println("Appointment " + appointmentX.getAppointmentId() + " Start: " + startX);
+                System.out.println("New appointment End: " + end);
+                System.out.println("Appointment " + appointmentX.getAppointmentId() + " End: " + endX);
+                System.out.println("-----------------------------------------------------------------------");
 
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Appointment overlap");
                 alert.setContentText("Appointments with the same customer cannot be overlapping");
 
-                if((start.isAfter(startX) || start.isEqual(startX)) && start.isBefore(endX)){
+                if((start.isAfter(startX) && start.isBefore(endX)) || start.isEqual(startX)){
                     System.out.println("Scenario 1: Start is in window");
-                    System.out.println("StartX: " + startX + " EndX: " + endX);
-                    System.out.println("Start: " + start + " End: " + end);
-
+                    /*System.out.println("StartX: " + startX + " EndX: " + endX);
+                    System.out.println("Start: " + start + " End: " + end);*/
+                    Optional<ButtonType> result = alert.showAndWait();
                     return false;
                 }
 
                 if(end.isAfter(startX) && (end.isBefore(endX) || end.isEqual(endX))){
                     System.out.println("Scenario 2: End is in the window");
-                    System.out.println("StartX: " + startX + " EndX: " + endX);
-                    System.out.println("Start: " + start + " End: " + end);
+                    /*System.out.println("StartX: " + startX + " EndX: " + endX);
+                    System.out.println("Start: " + start + " End: " + end);*/
                     Optional<ButtonType> result = alert.showAndWait();
                     return false;
                 }
 
                 if((start.isBefore(startX) || start.isEqual(startX)) && (end.isAfter(endX) || end.isEqual(endX))){
                     System.out.println("Scenario 3: Start and end are both outside of window");
-                    System.out.println("StartX: " + startX + " EndX: " + endX);
-                    System.out.println("Start: " + start + " End: " + end);
+                    /*System.out.println("StartX: " + startX + " EndX: " + endX);
+                    System.out.println("Start: " + start + " End: " + end);*/
                     Optional<ButtonType> result = alert.showAndWait();
                     return false;
                 }

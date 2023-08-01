@@ -19,6 +19,7 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -127,7 +128,7 @@ public class loginController implements Initializable {
         String password = passwordTxt.getText();
         Session.setLocalUserId(helper.usersQuery.checkMatch(username, password));
         if (Session.getLocalUserId() != null){
-            trackLogin(true);
+            trackLogin(true, username);
             System.out.println("Login successful");
             stage = (Stage)((TextField)event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/mainForm.fxml")));
@@ -135,7 +136,7 @@ public class loginController implements Initializable {
             stage.show();
         }
         else {
-            trackLogin(false);
+            trackLogin(false, username);
             Alert loginError = new Alert(Alert.AlertType.WARNING);
             if(String.valueOf(Session.getLocalLanguage()).equals("fr")){
                 loginError.setTitle("Erreur de connexion");
@@ -153,12 +154,11 @@ public class loginController implements Initializable {
     /**
      * Method records current date, time, and the success of a login attempt
      */
-    public static void trackLogin(boolean successful) throws IOException{
+    public static void trackLogin(boolean successful, String username) throws IOException{
         String filename = "src/login_activity.txt", item;
         FileWriter fWriter = new FileWriter(filename, true);
         PrintWriter outputFile = new PrintWriter(fWriter);
-        StringBuilder sb = new StringBuilder("Login attempt at " + LocalDateTime.now(Session.getLocalZoneId()) + " (user system time) || Login success: " + successful);
-        outputFile.println(sb);
+        outputFile.println("Login attempt at " + ZonedDateTime.now() + " || Attempt username: " + username + " || Login success: " + successful);
         outputFile.close();
     }
 

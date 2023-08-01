@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.*;
 
 /**
  * Database helper class for appointment objects
@@ -30,11 +30,43 @@ public abstract class appointmentsQuery {
         String description = rs.getString("Description");
         String location = rs.getString("Location");
         String Type = rs.getString("Type");
-        LocalDateTime startDT = rs.getTimestamp("Start").toLocalDateTime();
+
+        LocalDateTime startDT = rs.getTimestamp("Start").toLocalDateTime(); //not working with start yet
+
+
         LocalDateTime endDT = rs.getTimestamp("End").toLocalDateTime();
+
+
+        //convert to instant to zdt (at local machine zone ID) to UTC to local datetime
+        /*
+        ZonedDateTime endZDT = rs.getTimestamp("End").toInstant().atZone(Session.getLocalZoneId());
+        LocalDateTime endDT = endZDT.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
+        */
+
+
+        //convert to instant to zdt (at UTC) to local datetime
+        /*
+        ZonedDateTime endZDT = rs.getTimestamp("End").toInstant().atZone(ZoneId.of("UTC"));
+        LocalDateTime endDT = endZDT.toLocalDateTime();
+        */
+
+
+        //convert to local datetime to zdt (at local machine Zone ID) to UTC to local datetime
+        /*
+        ZonedDateTime endZDT = rs.getTimestamp("End").toLocalDateTime().atZone(Session.getLocalZoneId());
+        LocalDateTime endDT = endZDT.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
+        */
+
+
+
+
+
+
         Integer customerId = rs.getInt("Customer_ID");
         Integer userId = rs.getInt("User_ID");
         Integer contactId = rs.getInt("Contact_ID");
+
+        System.out.println(AppointmentId + " END DT: " + endDT);
 
         Appointment newAppointment = new Appointment(AppointmentId, title,
                 description, location, contactId, Type, startDT, endDT,customerId, userId);

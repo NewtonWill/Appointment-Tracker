@@ -120,12 +120,10 @@ public class Appointment {
 
     public String getEndLocalZone(){
         ZonedDateTime endZDT = ZonedDateTime.of(getEndDT(), ZoneId.of("UTC"));
-        String endLocal = endZDT.withZoneSameInstant(Session.getLocalZoneId()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
-        return endLocal;
+        return endZDT.withZoneSameInstant(Session.getLocalZoneId()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
     }
     public String getStartLocalZone(){
-        ZonedDateTime startZDT = ZonedDateTime.of(getEndDT(), ZoneId.of("UTC"));
-        String startLocal = startZDT.withZoneSameInstant(Session.getLocalZoneId()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
-        return startLocal;
+        ZonedDateTime startZDT = ZonedDateTime.of(getStartDT(), ZoneId.of("UTC"));
+        return startZDT.withZoneSameInstant(Session.getLocalZoneId()).format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
     }
 }

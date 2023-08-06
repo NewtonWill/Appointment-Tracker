@@ -178,6 +178,9 @@ public class Main extends Application {
     public static boolean appointmentFullCheck(ZonedDateTime start, ZonedDateTime end, Integer customerId, Integer appointmentId){
         if (end.isBefore(start) || end.equals(start)){
             System.out.println("Error: Appointment cannot end before or at start");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Appointment error");
+            alert.setContentText("Appointments cannot end before or at start");
             return false;
         }
 
@@ -204,14 +207,17 @@ public class Main extends Application {
             if(Objects.equals(appointmentX.getCustomer_ID(), customerId) && !Objects.equals(appointmentX.getAppointmentId(), appointmentId)){
                 //above checks if the rotating appointmentX is for the same customer, and if so will make sure it is not the same appointment
 
-                ZonedDateTime startX = appointmentX.getStartDT().atZone(ZoneId.of("UTC")).withZoneSameInstant(Session.getLocalZoneId());
-                ZonedDateTime endX = appointmentX.getEndDT().atZone(ZoneId.of("UTC")).withZoneSameInstant(Session.getLocalZoneId());
+                /*ZonedDateTime startX = appointmentX.getStartDT().atZone(ZoneId.of("UTC")).withZoneSameInstant(Session.getLocalZoneId());
+                ZonedDateTime endX = appointmentX.getEndDT().atZone(ZoneId.of("UTC")).withZoneSameInstant(Session.getLocalZoneId());*/
+
+                ZonedDateTime startX = appointmentX.getStartDT().atZone(Session.getLocalZoneId());
+                ZonedDateTime endX = appointmentX.getEndDT().atZone(Session.getLocalZoneId());
 
                 System.out.println();
                 System.out.println("New Appointment Start: " + start);
-                System.out.println("Appointment " + appointmentX.getAppointmentId() + " Start: " + startX);
-                System.out.println("New appointment End: " + end);
-                System.out.println("Appointment " + appointmentX.getAppointmentId() + " End: " + endX);
+                System.out.println("New appointment End:   " + end);
+                System.out.println("Appointment " + appointmentX.getAppointmentId() + " Start:   " + startX);
+                System.out.println("Appointment " + appointmentX.getAppointmentId() + " End:     " + endX);
                 System.out.println("-----------------------------------------------------------------------");
 
                 Alert alert = new Alert(Alert.AlertType.WARNING);

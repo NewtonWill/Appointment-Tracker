@@ -142,7 +142,7 @@ public class Main extends Application {
      * @return boolean signifying validity of data
      */
     public static boolean customerDataCheck(String name, String address, Division division, String phone, String postalCode){
-        dataCheckInterface checkItOut = s -> s != null && !s.isBlank();
+        dataCheckInterface checkItOut = s -> s != null && !s.isBlank(); //Lambda Expression checks for nulls and blanks at the same time. Lambda expression improves code by increasing readability
         return checkItOut.nullOrBlank(name) && checkItOut.nullOrBlank(address) && checkItOut.nullOrBlank(phone) &&
                 checkItOut.nullOrBlank(postalCode) && division != null;
     }

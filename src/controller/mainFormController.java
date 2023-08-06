@@ -314,7 +314,7 @@ public class mainFormController implements Initializable{
 
         appointmentTableView.setItems(Session.getAllAppointments());
 
-        implement.setAllButtonsDisable(true); //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled
+        implement.setAllButtonsDisable(true); //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled. See line 487 for declaration expression
 
         dateDisplay.setText("All appointments");
     }
@@ -329,7 +329,7 @@ public class mainFormController implements Initializable{
 
         appointmentTableView.setItems(Session.appointmentGetMonth(monthSelect.getSelectionModel().getSelectedItem(), yearSelect.getSelectionModel().getSelectedItem()));
 
-        implement.setAllButtonsDisable(false); //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled
+        implement.setAllButtonsDisable(false); //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled. See line 487 for declaration expression
 
         dateDisplay.setText(monthSelect.getSelectionModel().getSelectedItem().toString());
     }
@@ -347,7 +347,7 @@ public class mainFormController implements Initializable{
 
         dateDisplay.setText("Week starting with Sunday " + Session.getCurrentSunday());
 
-        implement.setAllButtonsDisable(false); //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled
+        implement.setAllButtonsDisable(false); //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled. See line 487 for declaration expression
     }
 
 
@@ -435,7 +435,7 @@ public class mainFormController implements Initializable{
 
     /**
      * Method to initialize view. Sets table items and default toggles.
-     * Lambda expression cuts down redundant lines of code by setting all buttons enabled or disabled at once
+     * Lambda expression cuts down redundant lines of code by setting all buttons enabled or disabled at once. See line 487 for declaration expression
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -474,7 +474,7 @@ public class mainFormController implements Initializable{
 
         Session.setCurrentSunday(Main.getFirstWeekDate(monthSelect.getSelectionModel().getSelectedItem(), yearSelect.getValue()));
 
-        implement.setAllButtonsDisable(true); //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled
+        implement.setAllButtonsDisable(true); //Lambda expression cuts down redundant lines of code setting all buttons enabled or disabled. See line 487 for declaration expression
 
         dateDisplay.setText("All appointments");
 
